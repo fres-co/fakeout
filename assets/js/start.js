@@ -119,6 +119,7 @@ nameID = uuidv4();
 
 
 function joinGame() {
+    console.log('joinGame');
     $("#start-join-game-button").off('click');
     setTimeout(function () {
         $("#start-join-game-button").on('click', joinGame);
@@ -156,6 +157,7 @@ function joinGame() {
             document.getElementById("start").style.display = "none";
             nameID = nameId;
             roomID = room;
+            console.log('displayWaitingRoom');
             displayWaitingRoom();
         }
     });
@@ -180,6 +182,7 @@ function displayWaitingRoom() {
     $('#waiting-room').fadeIn(400);
 
     if (displayPrevScore) {
+        console.log('get players 2');
         socket.emit('get players', roomID, function (pl) {
             $('#prevScoreB').css('display', 'block');
             var s = "";
@@ -196,7 +199,7 @@ function displayWaitingRoom() {
 
 
 
-
+    console.log('get players3');
     socket.emit("get players", roomID, function (p) {
         displayPlayersInWaiting(p);
     });

@@ -67,14 +67,15 @@ io.on('connection', function (socket) {
     console.log("connected");
     let currentPlayerId = null;
     let currentRoomId = null;
-    socket.emit('get room id', function (id) {
-        if (id != "") {
-            if (rooms[id] != null) {
-                socket.join(id);
-                socket.emit('display current view', rooms[id].gamestart, rooms[id].gamestate);
-            }
-        }
-    });
+    // socket.emit('get room id', function (id) {
+    //     if (id != "") {
+    //         if (rooms[id] != null) {
+    //             socket.join(id);
+    //             socket.emit('display current view', rooms[id].gamestart, rooms[id].gamestate);
+    //             console.log(rooms[id]);
+    //         }
+    //     }
+    // });
 
 
     function setupRoom(roomid) {

@@ -23,9 +23,9 @@ window.onpagehide = function() {
 };
 
 
-socket.on('get room id', function(cb){
-    cb&&cb(roomID);
-});
+// socket.on('get room id', function(cb){
+//     cb&&cb(roomID);
+// });
 
 
 function leave(e) {
@@ -48,6 +48,7 @@ $("#leave-game-button").unbind().on('click tap', leave);
 socket.on('game ended', function() {
     backToWaitingRoom(function() {
         displayPrevScore = true;
+        console.log('displayWaitingRoom4');
         displayWaitingRoom();
     });
 });
@@ -57,6 +58,7 @@ socket.on('display current view', function(gamestart, gs) {
         //go to main menu
         backToWaitingRoom(function() {
             displayPrevScore=true;
+            console.log('displayWaitingRoom3');
             displayWaitingRoom();
         });
     } else {
@@ -118,7 +120,7 @@ var resetting = false;
 socket.on('player leave', function(gamestart, id) {
     if (gamestart && !resetting) {
         //playing
-        if (nameID > id) nameID--;
+        // if (nameID > id) nameID--;
         resetting = true;
 
 
@@ -128,6 +130,7 @@ socket.on('player leave', function(gamestart, id) {
             }).fadeOut(400, function() {
                 resetting = false;
                 displayPrevScore=true;
+                console.log('displayWaitingRoom2');
                 displayWaitingRoom();
             });
         });
@@ -135,12 +138,12 @@ socket.on('player leave', function(gamestart, id) {
 
     } else {
         //waiting
-        if (id==nameID) {
+        if (id == nameID) {
             isLeaving = true;
             location.reload();
         } else {
-            if (nameID > id) nameID--;
-
+            // if (nameID > id) nameID--;
+            console.log('get players');
             socket.emit("get players", roomID, function(p){
                 displayPlayersInWaiting(p);
             });
