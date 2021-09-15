@@ -323,7 +323,7 @@ io.on('connection', function (socket) {
         rooms[roomid].addPlayer(new Player(name, currentPlayerId, roomid));
 
         callback && callback("success", currentPlayerId);
-        io.to(roomid).emit("update players");
+        io.to(roomid).emit("update players", rooms[roomid].players);
     });
 
     function deletePlayer(roomid, id, callback) {
@@ -348,7 +348,7 @@ io.on('connection', function (socket) {
         if (rooms[roomid] == null) return;
         const player = findById(rooms[roomid].players, id);
         player.name = n;
-        io.to(roomid).emit("update players");
+        io.to(roomid).emit("update players", rooms[roomid].players);
     });
 
     socket.on('disconnect', () => {

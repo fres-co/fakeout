@@ -194,10 +194,9 @@ function displayWaitingRoom() {
     socket.emit("get players", roomID, function (p) {
         displayPlayersInWaiting(p);
     });
-    socket.on('update players', function () {
-        socket.emit("get players", roomID, function (p) {
-            displayPlayersInWaiting(p);
-        });
+
+    socket.on('update players', function (players) {
+        displayPlayersInWaiting(players);
     });
 
 
@@ -227,6 +226,7 @@ function displayWaitingRoom() {
 
 
 function displayPlayersInWaiting(p) {
+    $("#startButton").attr('disabled', p.length < 3);
     var s = "";
     for (let pl of p) {
         if (nameID == pl.id) {
