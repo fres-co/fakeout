@@ -2,8 +2,8 @@
 var nameID;
 
 const urlParams = new URLSearchParams(window.location.search);
-const roomID = urlParams.get('room') || "";
-const name = urlParams.get('name') || "";
+var roomID = urlParams.get('room') || "";
+var name = urlParams.get('name') || "";
  
 document.getElementById("start-join-roomid").value = roomID;
 document.getElementById("start-join-name").value = name;
