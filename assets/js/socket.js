@@ -14,6 +14,8 @@ var isLeaving = false;
 
 window.onbeforeunload = function() {
   if (gamestate != NOT_PLAYING) return "Confirm?";
+  // socket.onclose = function () {}; // disable onclose handler first
+  // socket.close();
 }
 
 window.onpagehide = function() {

@@ -161,6 +161,15 @@ $(".start-back-button").click(backToStart);
 var prevScore = [];
 var displayPrevScore = false;
 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+nameID = uuidv4();
+
 
 function joinGame() {
     $("#start-join-game-button").off('click');
@@ -179,7 +188,7 @@ function joinGame() {
     }
 
     playerName = n;
-    socket.emit("join room", room, n, function(res, numP) {
+    socket.emit("join room", room, n, nameID, function(res, nameId) {
         if (res == "null") {
             //room does not exist
             document.getElementById("start-join-error").innerText = "Room does not exist";
@@ -198,7 +207,7 @@ function joinGame() {
             document.getElementById("start-join-name").value = "";
             document.getElementById("start-join-display").style.display = "none";
             document.getElementById("start").style.display = "none";
-            nameID = numP;
+            nameID = nameId;
             roomID = room;
             displayWaitingRoom();
         }
@@ -221,7 +230,8 @@ function createGame() {
         return;
     }
     playerName = n;
-    socket.emit("create room", room, n, function(res) {
+
+    socket.emit("create room", room, n, nameID, function(res) {
         if (res=="taken") {
             //room code already taken
             document.getElementById("start-create-error").innerText = "Room code taken";
@@ -231,7 +241,6 @@ function createGame() {
             document.getElementById("start-create-name").value = "";
             document.getElementById("start-create-display").style.display = "none";
             document.getElementById("start").style.display = "none";
-            nameID = 1;
             roomID = room;
             console.log(nameID + " " + roomID);
             displayWaitingRoom();
