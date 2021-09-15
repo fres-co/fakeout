@@ -293,41 +293,37 @@ io.on('connection', function (socket) {
     });
 
     socket.on('join room', function (roomid, name, playerId, callback) {
+        
+        currentRoomId = roomid;
         currentPlayerId = playerId;
+        
         if (rooms[roomid] == null) {
-            callback && callback("null", 0);
+            // New room
+            var ro = new Room(roomid);
+            ro.addPlayer(new Player(name, playerId, roomid));
+            rooms[roomid] = ro;
+            socket.join(roomid);
+            callback && callback("success", currentPlayerId);
             return;
         }
+
         if (rooms[roomid].gamestart) {
+            // Already started
             callback && callback("started", 0);
             return;
         }
         if (rooms[roomid].players.length > 30) {
+            // Too many players
             callback && callback("full", 0);
             return;
         }
 
         // var numPlayers = rooms[roomid].players.length + 1;
-        currentRoomId = roomid;
         socket.join(roomid);
         rooms[roomid].addPlayer(new Player(name, currentPlayerId, roomid));
 
         callback && callback("success", currentPlayerId);
         io.to(roomid).emit("update players");
-    });
-
-    socket.on('create room', function (roomid, name, playerId, callback) {
-        currentPlayerId = playerId;
-        if (rooms[roomid] != null) {
-            callback && callback("taken");
-            return;
-        }
-
-        var ro = new Room(roomid);
-        ro.addPlayer(new Player(name, playerId, roomid));
-        rooms[roomid] = ro;
-        socket.join(roomid);
-        callback && callback("success");
     });
 
     function deletePlayer(roomid, id, callback) {

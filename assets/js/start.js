@@ -1,16 +1,8 @@
 
 var roomID = "", nameID, name;
 
+ 
 $("#start-join-roomid").on({
-    keydown: function (e) {
-        if (e.which === 32)
-            return false;
-    },
-    change: function () {
-        this.value = this.value.replace(/\s/g, "");
-    }
-});
-$("#start-create-roomid").on({
     keydown: function (e) {
         if (e.which === 32)
             return false;
@@ -89,15 +81,6 @@ $('#prevScoreB').on('click', function (e) {
 });
 
 
-document.getElementById("start-create-roomid").addEventListener('input', function (evt) {
-    document.getElementById("start-create-error").innerText = "";
-
-    if (this.value.length != 4) {
-        this.style.border = "2px solid red";
-    } else {
-        this.style.border = "1px solid #e5cbb7";
-    }
-});
 document.getElementById("start-join-roomid").addEventListener('input', function (evt) {
     document.getElementById("start-join-error").innerText = "";
 
@@ -107,13 +90,7 @@ document.getElementById("start-join-roomid").addEventListener('input', function 
         this.style.border = "1px solid #e5cbb7";
     }
 });
-document.getElementById("start-create-name").addEventListener('input', function (evt) {
-    if (this.value.length == 0) {
-        this.style.border = "2px solid red";
-    } else {
-        this.style.border = "1px solid #e5cbb7";
-    }
-});
+
 document.getElementById("start-join-name").addEventListener('input', function (evt) {
     if (this.value.length == 0) {
         this.style.border = "2px solid red";
@@ -121,42 +98,6 @@ document.getElementById("start-join-name").addEventListener('input', function (e
         this.style.border = "1px solid #e5cbb7";
     }
 });
-
-function joinGameDisplay() {
-    $("#start-join-game-button").unbind().click(joinGame);
-    rulesActive = false;
-    $('#link-to-repo').css('display', 'none');
-
-    document.getElementById("rule-display").style.display = "none";
-
-    document.getElementById("start-buttons").style.display = "none";
-    document.getElementById("start-join-display").style.display = "block";
-}
-
-function createGameDisplay() {
-    $("#start-create-game-button").unbind().click(createGame);
-    rulesActive = false;
-    document.getElementById("rule-display").style.display = "none";
-    $('#link-to-repo').css('display', 'none');
-
-    document.getElementById("start-buttons").style.display = "none";
-    document.getElementById("start-create-display").style.display = "block";
-}
-
-function backToStart() {
-    document.getElementById("start-join-display").style.display = "none";
-    document.getElementById("start-create-display").style.display = "none";
-    document.getElementById("start-join-roomid").value = "";
-    document.getElementById("start-join-name").value = "";
-    document.getElementById("start-create-roomid").value = "";
-    document.getElementById("start-create-name").value = "";
-    document.getElementById("start-buttons").style.display = "flex";
-    $('#link-to-repo').css('display', 'block');
-}
-
-$("#start-join").click(joinGameDisplay);
-$("#start-create").click(createGameDisplay);
-$(".start-back-button").click(backToStart);
 
 var prevScore = [];
 var displayPrevScore = false;
@@ -215,38 +156,8 @@ function joinGame() {
 
 }
 
-function createGame() {
-    $("#start-create-game-button").off('click');
-    setTimeout(function () {
-        $("#start-create-game-button").on('click', createGame);
-    }, 2000);
-    var room = document.getElementById("start-create-roomid").value;
-    var n = document.getElementById("start-create-name").value;
-    if (room.length < 4) {
-        document.getElementById("start-create-roomid").style.border = "2px solid red";
-        return
-    } else if (n.length == 0) {
-        document.getElementById("start-create-name").style.border = "2px solid red";
-        return;
-    }
-    playerName = n;
-
-    socket.emit("create room", room, n, nameID, function (res) {
-        if (res == "taken") {
-            //room code already taken
-            document.getElementById("start-create-error").innerText = "Room code taken";
-            document.getElementById("start-create-roomid").style.border = "2px solid red";
-        } else if (res == "success") {
-            document.getElementById("start-create-roomid").value = "";
-            document.getElementById("start-create-name").value = "";
-            document.getElementById("start-create-display").style.display = "none";
-            document.getElementById("start").style.display = "none";
-            roomID = room;
-            console.log(nameID + " " + roomID);
-            displayWaitingRoom();
-        }
-    });
-}
+$("#start-join-game-button").click(joinGame);
+   
 
 function displayWaitingRoom() {
     gamestate = NOT_PLAYING;

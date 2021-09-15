@@ -101,7 +101,7 @@
     margin-top: 4vh;
 }
 
-#start-create-error, #start-join-error {
+#start-join-error {
     text-align: center;
     color: red;
 }
@@ -115,25 +115,24 @@
     line-height: 30px;
 }
 
-#start-join-display, #start-create-display {
+#start-join-display {
     position: static;
     margin: 0 auto;
 
     width: 75vw;
-    display:none;
 }
 
 .form-control {
     border: 1px solid #e5cbb7;
 }
 
-#start-join-game-button, .start-back-button, #start-create-game-button {
+#start-join-game-button, .start-back-button {
     font-size: 20px;
     padding: 10px 25px;
     border-radius: 5px;
 }
 
-#start-join-button, #start-create-button {
+#start-join-button {
     position: relative;
     margin: 0;
     width: 100% !important;
