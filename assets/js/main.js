@@ -194,7 +194,9 @@ function displayResults(cb) {
 
         for (var i = 0; i < pl.length; i++) {
             const chosenAnswer = findById(playersChosenAnswers, pl[i].answerID);
-            chosenAnswer.players.push(pl[i]);
+            if (chosenAnswer) {
+                chosenAnswer.players.push(pl[i]);
+            }
         }
 
         for (var i = 0; i < playersChosenAnswers.length; i++) {
@@ -369,14 +371,18 @@ function displayLieResults(cb) {
 
         for (var i = 0; i < pl.length; i++) {
             const chosenLie = findById(playersChosenLies, pl[i].lieID);
-            chosenLie.players.push(pl[i]);
+            if (chosenLie) {
+                chosenLie.players.push(pl[i]);
+            }
         }
 
 
         var playerScores = pl.map(x => ({ id: x.id, score: 0 }));
         for (var i = 0; i < pl.length; i++) {
             const playerScore = findById(playerScores, pl[i].lieID);
-            playerScore.score++;
+            if (playerScore) {
+                playerScore.score++;
+            }
         }
 
         var max = -1;
