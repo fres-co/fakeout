@@ -163,24 +163,24 @@ function displayResults(cb) {
 
     $("#continue1Button").text("Continue");
     $('#continue1Button').css("background-color", "#bdffbd");
+    let isReady = false;
+
+    socket.on('player continue 1', function (numReady, numTotal) {
+        $("#continue1Button").text((isReady ? (numReady + " / " + numTotal + " Ready") : "Continue"));
+
+        if (numReady >= numTotal / 2) {
+            socket.removeAllListeners("player continue 1");
+            $('#results').fadeOut(400);
+            displayVotingForLie(function () {
+                $('#best-lie').fadeIn(400);
+            });
+        }
+    });
 
     $('#continue1Button').off().on('click tap', function (e) {
+        isReady = true;
         e.preventDefault();
         $(this).off();
-        $("#continue1Button").css("background-color", "#40d15d");
-
-        socket.on('player continue 1', function (numReady, numTotal) {
-            $("#continue1Button").text(numReady + " / " + numTotal + " Ready");
-
-            if (numReady == numTotal) {
-                socket.removeAllListeners("player continue 1");
-                $('#results').fadeOut(400);
-                displayVotingForLie(function () {
-                    $('#best-lie').fadeIn(400);
-                });
-            }
-        });
-
         socket.emit('player continue 1', roomID, nameID);
     });
 
@@ -309,13 +309,13 @@ function setupSelectableLies() {
         e.preventDefault();
             $(this).addClass("selectedLie");
             selectedLID = $(this).attr("data-lid");
-
+        isReady = true;
         $("#lie-list").children(".lie-choice").off();
         
         socket.on('player selected lie', function (numReady, numTotal) {
             $("#chooseLieReady").text(numReady + " / " + numTotal + " Ready");
             $("#chooseLieReady").addClass('is-visible');
-
+    
             if (numReady == numTotal) {
                 socket.removeAllListeners("player selected lie");
                 $('#best-lie').fadeOut(400, function () {
@@ -325,7 +325,7 @@ function setupSelectableLies() {
                     });
                 });
             }
-        });
+        });    
 
         socket.emit('player selected lie', roomID, nameID, selectedLID);
     });
@@ -337,26 +337,27 @@ function displayLieResults(cb) {
 
     $("#nextRoundButton").text("Next Round");
     $('#nextRoundButton').css("background-color", "#bdffbd");
+    let isReady = false;
+
+    socket.on('player next round', function (numReady, numTotal) {
+        $("#nextRoundButton").text(isReady ? numReady + " / " + numTotal + " Ready" : 'Next Round');
+
+        if (numReady >= numTotal / 2) {
+            socket.removeAllListeners("player next round");
+            $('#playing').fadeOut(400, function () {
+                $('#lie-results').css('display', 'none');
+                $('#create-answer').css('display', 'block');
+                setupCreatingLie();
+                $('#playing').fadeIn(400);
+            });
+        }
+    });
 
     $('#nextRoundButton').off().on('click tap', function (e) {
         e.preventDefault();
+        isReady = true;
         $(this).off();
         $("#nextRoundButton").css("background-color", "#40d15d");
-
-        socket.on('player next round', function (numReady, numTotal) {
-            $("#nextRoundButton").text(numReady + " / " + numTotal + " Ready");
-
-            if (numReady == numTotal) {
-                socket.removeAllListeners("player next round");
-                $('#playing').fadeOut(400, function () {
-                    $('#lie-results').css('display', 'none');
-                    $('#create-answer').css('display', 'block');
-                    setupCreatingLie();
-                    $('#playing').fadeIn(400);
-                });
-            }
-        });
-
         socket.emit('player next round', roomID, nameID);
     });
 

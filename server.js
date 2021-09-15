@@ -128,7 +128,7 @@ io.on('connection', function (socket) {
             if (p.continue1) { c++; }
         }
         io.to(roomid).emit("player continue 1", c, rooms[roomid].players.length);
-        if (c == rooms[roomid].players.length) { 
+        if (c >= rooms[roomid].players.length / 2) { 
             rooms[roomid].gamestate = CHOOSING_BEST_LIE; 
         }
     });
@@ -162,7 +162,7 @@ io.on('connection', function (socket) {
         }
         io.to(roomid).emit("player next round", c, rooms[roomid].players.length);
 
-        if (c == rooms[roomid].players.length) { 
+        if (c >= rooms[roomid].players.length / 2) { 
             resetRound(roomid);
         }
     });
