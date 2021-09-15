@@ -2,33 +2,33 @@
 var roomID = "", nameID, name;
 
 $("#start-join-roomid").on({
-    keydown: function(e) {
+    keydown: function (e) {
         if (e.which === 32)
             return false;
     },
-    change: function() {
+    change: function () {
         this.value = this.value.replace(/\s/g, "");
     }
 });
 $("#start-create-roomid").on({
-    keydown: function(e) {
+    keydown: function (e) {
         if (e.which === 32)
             return false;
     },
-    change: function() {
+    change: function () {
         this.value = this.value.replace(/\s/g, "");
     }
 });
 
 var WrulesActive = false;
-$("#waiting-rules").on("click", function(e) {
+$("#waiting-rules").on("click", function (e) {
     e.preventDefault();
     WrulesActive = true;
     if (WrulesActive) {
         document.getElementById("waiting-rule-display").style.display = "block";
     }
 });
-$("#waiting-close-rule-display").on("click", function(e) {
+$("#waiting-close-rule-display").on("click", function (e) {
     e.preventDefault();
     WrulesActive = false;
     if (!WrulesActive) {
@@ -37,14 +37,14 @@ $("#waiting-close-rule-display").on("click", function(e) {
 });
 
 var rulesActive = false;
-$("#rules").on("click", function(e) {
+$("#rules").on("click", function (e) {
     e.preventDefault();
     rulesActive = true;
     if (rulesActive) {
         document.getElementById("rule-display").style.display = "block";
     }
 });
-$("#close-rule-display").on("click", function(e) {
+$("#close-rule-display").on("click", function (e) {
     e.preventDefault();
     rulesActive = false;
     if (!rulesActive) {
@@ -54,7 +54,7 @@ $("#close-rule-display").on("click", function(e) {
 
 
 var nameChangeActive = false;
-$("#change-name-cancel-button").on("click", function(e) {
+$("#change-name-cancel-button").on("click", function (e) {
     e.preventDefault();
     nameChangeActive = false;
     document.getElementById("change-name").style.display = "none";
@@ -76,13 +76,13 @@ $("#change-name-save-button").on('click', function (e) {
 
 
 var prevScoredisplayed = false;
-$('#close-prevScore-display').on('click', function(e) {
+$('#close-prevScore-display').on('click', function (e) {
     e.preventDefault();
     prevScoredisplayed = false;
     $('#prevScoreDisplay').css('display', 'none');
 });
 
-$('#prevScoreB').on('click', function(e) {
+$('#prevScoreB').on('click', function (e) {
     e.preventDefault();
     prevScoredisplayed = true;
     $('#prevScoreDisplay').css('display', 'block');
@@ -125,7 +125,7 @@ document.getElementById("start-join-name").addEventListener('input', function (e
 function joinGameDisplay() {
     $("#start-join-game-button").unbind().click(joinGame);
     rulesActive = false;
-    $('#link-to-repo').css('display','none');
+    $('#link-to-repo').css('display', 'none');
 
     document.getElementById("rule-display").style.display = "none";
 
@@ -137,7 +137,7 @@ function createGameDisplay() {
     $("#start-create-game-button").unbind().click(createGame);
     rulesActive = false;
     document.getElementById("rule-display").style.display = "none";
-    $('#link-to-repo').css('display','none');
+    $('#link-to-repo').css('display', 'none');
 
     document.getElementById("start-buttons").style.display = "none";
     document.getElementById("start-create-display").style.display = "block";
@@ -151,7 +151,7 @@ function backToStart() {
     document.getElementById("start-create-roomid").value = "";
     document.getElementById("start-create-name").value = "";
     document.getElementById("start-buttons").style.display = "flex";
-    $('#link-to-repo').css('display','block');
+    $('#link-to-repo').css('display', 'block');
 }
 
 $("#start-join").click(joinGameDisplay);
@@ -162,7 +162,7 @@ var prevScore = [];
 var displayPrevScore = false;
 
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
@@ -173,7 +173,7 @@ nameID = uuidv4();
 
 function joinGame() {
     $("#start-join-game-button").off('click');
-    setTimeout(function(){
+    setTimeout(function () {
         $("#start-join-game-button").on('click', joinGame);
     }, 2000);
 
@@ -188,20 +188,20 @@ function joinGame() {
     }
 
     playerName = n;
-    socket.emit("join room", room, n, nameID, function(res, nameId) {
+    socket.emit("join room", room, n, nameID, function (res, nameId) {
         if (res == "null") {
             //room does not exist
             document.getElementById("start-join-error").innerText = "Room does not exist";
             document.getElementById("start-join-roomid").style.border = "2px solid red";
-        } else if (res=="started") {
+        } else if (res == "started") {
             //game in session
             document.getElementById("start-join-error").innerText = "Game in session";
             document.getElementById("start-join-roomid").style.border = "2px solid red";
-        } else if (res=="full") {
+        } else if (res == "full") {
             //game full
             document.getElementById("start-join-error").innerText = "Room full";
             document.getElementById("start-join-roomid").style.border = "2px solid red";
-        } else if (res=="success") {
+        } else if (res == "success") {
             //joined successfully
             document.getElementById("start-join-roomid").value = "";
             document.getElementById("start-join-name").value = "";
@@ -217,7 +217,7 @@ function joinGame() {
 
 function createGame() {
     $("#start-create-game-button").off('click');
-    setTimeout(function(){
+    setTimeout(function () {
         $("#start-create-game-button").on('click', createGame);
     }, 2000);
     var room = document.getElementById("start-create-roomid").value;
@@ -231,8 +231,8 @@ function createGame() {
     }
     playerName = n;
 
-    socket.emit("create room", room, n, nameID, function(res) {
-        if (res=="taken") {
+    socket.emit("create room", room, n, nameID, function (res) {
+        if (res == "taken") {
             //room code already taken
             document.getElementById("start-create-error").innerText = "Room code taken";
             document.getElementById("start-create-roomid").style.border = "2px solid red";
@@ -248,7 +248,7 @@ function createGame() {
     });
 }
 
-function displayWaitingRoom(){
+function displayWaitingRoom() {
     gamestate = NOT_PLAYING;
     document.getElementById("playing").style.display = "none";
 
@@ -257,20 +257,20 @@ function displayWaitingRoom(){
 
 
     document.getElementById("wait-roomCode").innerText = roomID;
-    document.getElementById("waiting-player-list").innerHTML="";
+    document.getElementById("waiting-player-list").innerHTML = "";
 
 
     $('#waiting-room').fadeIn(400);
 
     if (displayPrevScore) {
-        socket.emit('get players', roomID, function(pl) {
+        socket.emit('get players', roomID, function (pl) {
             $('#prevScoreB').css('display', 'block');
             var s = "";
             for (var p of pl) {
                 s += "<div class=\"row\">" +
-                    "<div class=\"col-6\"><h5>"+p.name+ ((p.id==nameID)?" (You)":"")+
+                    "<div class=\"col-6\"><h5>" + p.name + ((p.id == nameID) ? " (You)" : "") +
                     "</h5></div>" +
-                    "<div class=\"col-6\" id='sb-"+p.id+"'><h5>"+p.points+"</h5></div>" +
+                    "<div class=\"col-6\" id='sb-" + p.id + "'><h5>" + p.points + "</h5></div>" +
                     "</div>";
             }
             document.getElementById("prevScoreDisplayP").innerHTML = s;
@@ -280,11 +280,11 @@ function displayWaitingRoom(){
 
 
 
-    socket.emit("get players", roomID, function(p){
+    socket.emit("get players", roomID, function (p) {
         displayPlayersInWaiting(p);
     });
-    socket.on('update players', function(){
-        socket.emit("get players", roomID, function(p){
+    socket.on('update players', function () {
+        socket.emit("get players", roomID, function (p) {
             displayPlayersInWaiting(p);
         });
     });
@@ -292,8 +292,8 @@ function displayWaitingRoom(){
 
 
 
-    socket.on('game start', function() {
-        $('#waiting-room').fadeOut(800, function() {
+    socket.on('game start', function () {
+        $('#waiting-room').fadeOut(800, function () {
 
             WrulesActive = false;
             document.getElementById("waiting-rule-display").style.display = "none";
@@ -302,7 +302,7 @@ function displayWaitingRoom(){
             socket.removeAllListeners("update players");
 
             resetAll();
-            $('#create-answer').css('display','block');
+            $('#create-answer').css('display', 'block');
             setupCreatingLie();
             $('#playing').fadeIn(400);
 
@@ -322,19 +322,19 @@ function displayPlayersInWaiting(p) {
             s += "<li class=\"col-12 waiting-player\">" +
                 pl.name + " (You)" +
                 "<span class=\"editName\">" +
-                "<i class=\"fas fa-pencil-alt\" data-id='"+pl.id+"'></i></span></li>";
+                "<i class=\"fas fa-pencil-alt\" data-id='" + pl.id + "'></i></span></li>";
         } else {
             s += "<li class=\"col-12 waiting-player\">" +
                 pl.name +
                 "<span class=\"editName\">" +
-                "<i class=\"fas fa-times deleteP\" data-id='"+pl.id+"'></i></span></li>";
+                "<i class=\"fas fa-times deleteP\" data-id='" + pl.id + "'></i></span></li>";
         }
     }
     document.getElementById("waiting-player-list").innerHTML = s;
 
-    $(".deleteP").on("click", function(e) {
+    $(".deleteP").on("click", function (e) {
         e.preventDefault();
-        socket.emit('delete player', roomID, $(this).attr("data-id"), function(res) {
+        socket.emit('delete player', roomID, $(this).attr("data-id"), function (res) {
             if ($(this).attr("data-id") == nameID) {
                 isLeaving = true;
                 location.reload();
@@ -342,7 +342,7 @@ function displayPlayersInWaiting(p) {
         });
     });
 
-    $(".fa-pencil-alt").on('click', function(e){
+    $(".fa-pencil-alt").on('click', function (e) {
         e.preventDefault();
         nameChangeActive = true;
         document.getElementById("change-name").style.display = "block";
@@ -356,7 +356,7 @@ function startGame(e) {
 
     $("#startButton").off("click");
 
-    setTimeout(function() {
+    setTimeout(function () {
         $("#startButton").on("click", startGame);
     }, 2000);
 
@@ -374,22 +374,22 @@ function backToWaitingRoom(cb) {
     document.getElementById('toggleMenuButton').innerHTML = '<i class="fas fa-caret-down"></i>';
     $('#toggleMenuButton').css('top', '100%');
 
-    $('#playing').fadeOut(1000, function() {
+    $('#playing').fadeOut(1000, function () {
         $("#menu").removeClass('mSlideUp');
-        cb&&cb();
+        cb && cb();
     });
 }
 
 
 
 function displayDBRooms(pass) {
-    socket.emit('display rooms', pass, function(r) {
+    socket.emit('display rooms', pass, function (r) {
         console.log(r);
     });
 }
 
 function displayDBPlayers(pass, r) {
-    socket.emit('display players', pass, r, function(p) {
+    socket.emit('display players', pass, r, function (p) {
         console.log(p);
     });
 }
