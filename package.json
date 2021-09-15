@@ -1,7 +1,15 @@
 {
+  "name": "fresco-fakeout",
+  "version": "1.0.0",
+  "description": "A game where you try to be the best liar.",
+  "main": "server.js",
+  "author": "Aymeric",
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^4.2.0",
     "uuid": "^8.3.2"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

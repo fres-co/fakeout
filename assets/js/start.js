@@ -1,7 +1,13 @@
 
-var roomID = "", nameID, name;
+var nameID;
 
+const urlParams = new URLSearchParams(window.location.search);
+const roomID = urlParams.get('room') || "";
+const name = urlParams.get('name') || "";
  
+document.getElementById("start-join-roomid").value = roomID;
+document.getElementById("start-join-name").value = name;
+
 $("#start-join-roomid").on({
     keydown: function (e) {
         if (e.which === 32)
