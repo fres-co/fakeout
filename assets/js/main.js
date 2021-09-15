@@ -82,7 +82,7 @@ function displayAnswerSelection(cb) {
     gamestate = CHOOSING_ANSWER;
 
     socket.emit('get room info', roomID, function(rm) {
-        var pl = rm.player;
+        var pl = rm.players;
         document.getElementById("selection-list").innerHTML = "";
 
         for (var i = 0; i < pl.length; i++) {
@@ -207,7 +207,7 @@ function displayResults(cb) {
 
     socket.emit('get room info', roomID, function(rm) {
         document.getElementById("results-list").innerHTML = "";
-        var pl = rm.player;
+        var pl = rm.players;
 
         var playersChosenAnswers = [];
         for (var i = 0; i < pl.length+1; i++) {
@@ -287,7 +287,7 @@ function displayResults(cb) {
 function displayVotingForLie(cb) {
     gamestate = CHOOSING_BEST_LIE;
   socket.emit('get room info', roomID, function(rm) {
-    var pl = rm.player;
+    var pl = rm.players;
 
     document.getElementById("lie-list").innerHTML = "";
 
@@ -404,7 +404,7 @@ function displayLieResults(cb) {
 
     socket.emit('get room info', roomID, function(rm) {
       document.getElementById("lie-results-list").innerHTML = "";
-      var pl = rm.player;
+      var pl = rm.players;
 
       var playersChosenLies = [];
       for (var i = 0; i < pl.length; i++) {
