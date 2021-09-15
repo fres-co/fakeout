@@ -196,6 +196,8 @@ function displayResults(cb) {
             const chosenAnswer = findById(playersChosenAnswers, pl[i].answerID);
             if (chosenAnswer) {
                 chosenAnswer.players.push(pl[i]);
+            } else {
+                console.error('chosenAnswer is null', playersChosenAnswers, pl[i]);
             }
         }
 
@@ -373,6 +375,8 @@ function displayLieResults(cb) {
             const chosenLie = findById(playersChosenLies, pl[i].lieID);
             if (chosenLie) {
                 chosenLie.players.push(pl[i]);
+            } else {
+                console.error('chosenLie is null', playersChosenLies, pl[i]);
             }
         }
 
@@ -382,6 +386,8 @@ function displayLieResults(cb) {
             const playerScore = findById(playerScores, pl[i].lieID);
             if (playerScore) {
                 playerScore.score++;
+            } else {
+                console.error('playerScore is null', playerScores, pl[i]);
             }
         }
 
