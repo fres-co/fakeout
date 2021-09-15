@@ -66,9 +66,8 @@ var rooms = {};
 io.on('connection', function(socket) {
     console.log("connected");
 
-
     socket.emit('get room id', function(id){
-        if (id!="") {
+        if (id != "") {
             if (rooms[id] != null) {
                 socket.join(id);
                 socket.emit('display current view', rooms[id].gamestart, rooms[id].gamestate);
@@ -267,6 +266,7 @@ io.on('connection', function(socket) {
         var numPlayers = rooms[roomid].player.length+1;
         socket.join(roomid);
         rooms[roomid].addPlayer(new Player(name, numPlayers, roomid));
+        
         callback&&callback("success", numPlayers);
         io.to(roomid).emit("update players");
     });
@@ -310,6 +310,9 @@ io.on('connection', function(socket) {
         io.to(roomid).emit("update players");
     });
 
+    socket.on('close', () => {
+        // TODO: remove player
+    });
 });
 
 
