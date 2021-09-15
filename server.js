@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-const { v4: uuidv4 } = require('uuid');
 
 var questionManager = require('./js/questions.js');
 
@@ -360,7 +359,7 @@ io.on('connection', function (socket) {
     });
 });
 
-
-http.listen(8000, function () {
-    console.log('listening on *:8000');
+const PORT = process.env.PORT || 8000;
+http.listen(PORT, function () {
+    console.log('listening on *:' + PORT);
 });
