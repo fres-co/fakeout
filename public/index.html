@@ -8,6 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/png" href="../assets/res/icon.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -32,30 +36,27 @@
 <body>
 
   <div id="playing">
-    <h5 style="margin-top:6rem;" class="text-center">Trivia Question</h5>
     <h5 id="trivia-question" class="mx-auto text-center"></h5>
 
     <div id="create-answer" class="text-center mb-5">
       <div id="create_answer-box" class="mt-5 mx-auto">
         <h4 class="mt-2">Create a Lie</h4>
         <input type="text" id="create_lie" class="mt-3 mb-5 mx-auto form-control" placeholder="Enter Lie">
-        <button class="mb-2 mx-auto button-1" id="create_submit-lie-button">Submit</button>
+        <button class="mb-2 mx-auto button-1 btn-block" id="create_submit-lie-button">Submit</button>
       </div>
-      <h1 id="create_ready-text" class="mt-5"></h1>
+      <h1 id="create_ready-text" class="ready-text mt-5"></h1>
 
     </div>
 
     <div id="selection-answers" class="mx-auto mb-5">
-      <h6 class="text-center mb-3">Your Answer</h6>
+      <h6 class="text-center mb-3">Your lie</h6>
       <div class="selection-choice" id="selection_player-answer">
       </div>
-      <h5 class="text-center mb-5">Answer Choices</h5>
+      <h5 class="text-center mb-5">Select your answer</h5>
       <div id="selection-list">
 
       </div>
-      <div id="chooseAnswerButton">
-        Select Answer
-      </div>
+      <h1 id="chooseAnswerReady" class="ready-text mt-5"></h1>
     </div>
 
     <div id="results" class="mx-auto mb-5">
@@ -63,7 +64,7 @@
       <div id="results-list">
       </div>
 
-      <div id="continue1Button">
+      <div id="continue1Button" class='h1'>
         Continue
       </div>
     </div>
@@ -72,13 +73,12 @@
       <h6 class="text-center mb-3">Your Lie</h6>
       <div class="lie-choice" id="lie_player-answer">
       </div>
-      <h5 class="text-center mb-5">Select Best Lie</h5>
+      <h5 class="text-center mb-5">Select your favourite lie</h5>
       <div id="lie-list">
 
       </div>
-      <div id="chooseLieButton">
-        Select Best Lie
-      </div>
+      <h1 id="chooseLieReady" class="ready-text mt-5"></h1>
+
     </div>
 
     <div id="lie-results" class="mx-auto mb-5">
@@ -86,7 +86,7 @@
       <div id="lie-results-list">
       </div>
 
-      <div id="nextRoundButton">
+      <div id="nextRoundButton" class='h1'>
         Next Round
       </div>
     </div>

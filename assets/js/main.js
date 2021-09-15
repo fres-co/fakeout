@@ -131,45 +131,17 @@ var selectedAID = -1;
 //0 is the answer
 
 function setupSelectableAnswers() {
+    $("#chooseAnswerReady").removeClass('is-visible');
     selectedAID = -1;
-    $("#chooseAnswerButton").css("background-color", "white");
-    $("#chooseAnswerButton").text("Select Answer");
-
     $("#selection-list").children(".selection-choice").on("click tap", function (e) {
         e.preventDefault();
-        if (!$(this).hasClass("selectedAnswer")) {
-
-            for (var c of $("#selection-list").children(".selection-choice")) {
-                $(c).removeClass("selectedAnswer");
-            }
-            $(this).addClass("selectedAnswer");
-            selectedAID = $(this).attr("data-aid");
-
-            $("#chooseAnswerButton").css("background-color", "#bdffbd");
-            $("#chooseAnswerButton").text("Confirm");
-
-        }
-        else {
-            $(this).removeClass("selectedAnswer");
-
-            $("#chooseAnswerButton").css("background-color", "white");
-            $("#chooseAnswerButton").text("Select Answer");
-
-            selectedAID = -1;
-        }
-    });
-
-    $('#chooseAnswerButton').off().on('click tap', function (e) {
-        e.preventDefault();
-        if (selectedAID == -1) return;
-
-        $('#chooseAnswerButton').off();
+        $(this).addClass("selectedAnswer");
+        selectedAID = $(this).attr("data-aid");
         $("#selection-list").children(".selection-choice").off();
-        $("#chooseAnswerButton").css("background-color", "#40d15d");
 
         socket.on('player selected answer', function (numReady, numTotal) {
-            $("#chooseAnswerButton").text(numReady + " / " + numTotal + " Ready");
-
+            $("#chooseAnswerReady").text(numReady + " / " + numTotal + " Ready");
+            $("#chooseAnswerReady").addClass('is-visible');
             if (numReady == numTotal) {
                 socket.removeAllListeners("player selected answer");
                 $('#selection-answers').fadeOut(400, function () {
@@ -331,43 +303,18 @@ var selectedLID = -1;
 
 function setupSelectableLies() {
     selectedLID = -1;
-    $("#chooseLieButton").css("background-color", "white");
-    $("#chooseLieButton").text("Select Best Lie");
+    $("#chooseLieReady").removeClass('is-visible');
 
     $("#lie-list").children(".lie-choice").on("click tap", function (e) {
         e.preventDefault();
-        if (!$(this).hasClass("selectedLie")) {
-
-            for (var c of $("#lie-list").children(".lie-choice")) {
-                $(c).removeClass("selectedLie");
-            }
             $(this).addClass("selectedLie");
             selectedLID = $(this).attr("data-lid");
 
-            $("#chooseLieButton").css("background-color", "#bdffbd");
-            $("#chooseLieButton").text("Confirm");
-
-        }
-        else {
-            $(this).removeClass("selectedLie");
-
-            $("#chooseLieButton").css("background-color", "white");
-            $("#chooseLieButton").text("Select Best Lie");
-
-            selectedLID = -1;
-        }
-    });
-
-    $('#chooseLieButton').off().on('click tap', function (e) {
-        e.preventDefault();
-        if (selectedLID == -1) return;
-
-        $('#chooseLieButton').off();
         $("#lie-list").children(".lie-choice").off();
-        $("#chooseLieButton").css("background-color", "#40d15d");
-
+        
         socket.on('player selected lie', function (numReady, numTotal) {
-            $("#chooseLieButton").text(numReady + " / " + numTotal + " Ready");
+            $("#chooseLieReady").text(numReady + " / " + numTotal + " Ready");
+            $("#chooseLieReady").addClass('is-visible');
 
             if (numReady == numTotal) {
                 socket.removeAllListeners("player selected lie");

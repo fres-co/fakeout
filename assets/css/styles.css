@@ -1,5 +1,5 @@
-* {
-    font-family: "Raleway", sans-serif;
+body {
+    font-family: "Montserrat", sans-serif;
 }
 
 #playing {
@@ -55,9 +55,7 @@
     padding-right: 15px;
 }
 
-#chooseAnswerButton, #continue1Button, #chooseLieButton, #nextRoundButton {
-    width: 50%;
-    max-width: 250px;
+#chooseAnswerReady, #chooseLieReady, #continue1Button, #nextRoundButton {
     background-color:white;
     color:black;
     position: fixed;
@@ -67,13 +65,18 @@
     left: 50%;
     transform: translateX(-50%);
     border: 1px solid black;
-    padding: 5px 10px;
+    padding: .5rem 1rem;
     user-select: none;
     text-align:center;
+    background-color: #bdffbd;
 }
 
-#continue1Button, #nextRoundButton {
-    background-color: #bdffbd;
+#chooseAnswerReady, #chooseLieReady {
+    display: none;
+}
+
+#chooseAnswerReady.is-visible, #chooseLieReady.is-visible {
+    display: block;
 }
 
 #selection-answers, #results, #best-lie, #lie-results {
@@ -84,7 +87,7 @@
 }
 
 #selection-list, #lie-list, #results-list, #lie-results-list{
-  margin-bottom: 6.5rem;
+  /* margin-bottom: 6.5rem; */
 }
 
 .selection-choice, .result-choice, .lie-choice {
@@ -138,7 +141,8 @@
 
 #trivia-question {
     width: 85%;
-    margin-top:3rem;
+    font-size: 2rem;
+    margin-top: 3rem;
 }
 
 
@@ -169,7 +173,7 @@
 
 @media only screen and (min-width: 600px) {
     #trivia-question {
-        margin-top: 3.5rem;
+        margin-top: 5rem;
     }
     #selection-answers, #results, #best-lie, #lie-results {
         max-width:500px;
