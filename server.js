@@ -56,8 +56,8 @@ class Player {
 const CREATING_LIE = 0;
 const CHOOSING_ANSWER = 1;
 const ANSWER_RESULTS = 2;
-const CHOOSING_BEST_LIE = 3;
-const BEST_LIE_RESULTS = 4;
+// const CHOOSING_BEST_LIE = 3;
+// const BEST_LIE_RESULTS = 4;
 
 
 var rooms = {};
@@ -116,22 +116,22 @@ io.on('connection', function (socket) {
         }
     });
 
-    socket.on('player continue 1', function (roomid, id) {
-        if (rooms[roomid] == null) return;
+    // socket.on('player continue 1', function (roomid, id) {
+    //     if (rooms[roomid] == null) return;
 
-        const player = findById(rooms[roomid].players, id);
-        if (!player) { return; }
+    //     const player = findById(rooms[roomid].players, id);
+    //     if (!player) { return; }
 
-        player.continue1 = true;
-        var c = 0;
-        for (var p of rooms[roomid].players) {
-            if (p.continue1) { c++; }
-        }
-        io.to(roomid).emit("player continue 1", c, rooms[roomid].players.length);
-        if (c >= rooms[roomid].players.length / 2) { 
-            rooms[roomid].gamestate = CHOOSING_BEST_LIE; 
-        }
-    });
+    //     player.continue1 = true;
+    //     var c = 0;
+    //     for (var p of rooms[roomid].players) {
+    //         if (p.continue1) { c++; }
+    //     }
+    //     io.to(roomid).emit("player continue 1", c, rooms[roomid].players.length);
+    //     if (c >= rooms[roomid].players.length / 2) { 
+    //         rooms[roomid].gamestate = CHOOSING_BEST_LIE; 
+    //     }
+    // });
 
     function resetRound(roomid) {
         for (var i = 0; i < rooms[roomid].players.length; i++) {
@@ -187,56 +187,56 @@ io.on('connection', function (socket) {
         }
     });
 
-    socket.on('player selected lie', function (roomid, nameid, lid) {
-        if (rooms[roomid] == null) return;
+    // socket.on('player selected lie', function (roomid, nameid, lid) {
+    //     if (rooms[roomid] == null) return;
 
-        const player = findById(rooms[roomid].players, nameid);
-        if (!player) { return; }
+    //     const player = findById(rooms[roomid].players, nameid);
+    //     if (!player) { return; }
 
-        player.lieID = lid;
-        player.selectedBestLie = true;
+    //     player.lieID = lid;
+    //     player.selectedBestLie = true;
 
-        var c = 0;
-        for (var p of rooms[roomid].players) {
-            if (p.selectedBestLie) { c++; }
-        }
-        io.to(roomid).emit("player selected lie", c, rooms[roomid].players.length);
+    //     var c = 0;
+    //     for (var p of rooms[roomid].players) {
+    //         if (p.selectedBestLie) { c++; }
+    //     }
+    //     io.to(roomid).emit("player selected lie", c, rooms[roomid].players.length);
 
-        if (c == rooms[roomid].players.length) {
-            calculateBestLie(roomid);
-            rooms[roomid].gamestate = BEST_LIE_RESULTS;
-        }
-    });
+    //     if (c == rooms[roomid].players.length) {
+    //         calculateBestLie(roomid);
+    //         rooms[roomid].gamestate = BEST_LIE_RESULTS;
+    //     }
+    // });
 
-    function calculateBestLie(roomid) {
+    // function calculateBestLie(roomid) {
         
-        var playerScores = rooms[roomid].players.map(x => ({ id: x.id, score: 0 }));
+    //     var playerScores = rooms[roomid].players.map(x => ({ id: x.id, score: 0 }));
         
-        for (var i = 0; i < rooms[roomid].players.length; i++) {
-            var player = rooms[roomid].players[i];
-            const playerScore = findById(playerScores, player.lieID);
-            playerScore.score++; 
-        }
+    //     for (var i = 0; i < rooms[roomid].players.length; i++) {
+    //         var player = rooms[roomid].players[i];
+    //         const playerScore = findById(playerScores, player.lieID);
+    //         playerScore.score++; 
+    //     }
 
-        var max = -1;
-        var pM = [];
-        for (var i = 0; i < playerScores.length; i++) {
-            if (playerScores[i].score > max) {
-                max = playerScores[i].score;
-                pM = [];
-                pM.push(playerScores[i].id);
-            } else if (playerScores[i] == max) {
-                pM.push(playerScores[i].id);
-            }
-        }
+    //     var max = -1;
+    //     var pM = [];
+    //     for (var i = 0; i < playerScores.length; i++) {
+    //         if (playerScores[i].score > max) {
+    //             max = playerScores[i].score;
+    //             pM = [];
+    //             pM.push(playerScores[i].id);
+    //         } else if (playerScores[i] == max) {
+    //             pM.push(playerScores[i].id);
+    //         }
+    //     }
 
 
-        for (var i = 0; i < pM.length; i++) {
-            const player = findById(rooms[roomid].players, pM[i]);
-            if (!player) { continue; }
-            player.points += 2;
-        }
-    }
+    //     for (var i = 0; i < pM.length; i++) {
+    //         const player = findById(rooms[roomid].players, pM[i]);
+    //         if (!player) { continue; }
+    //         player.points += 2;
+    //     }
+    // }
 
     function calculateResults(roomid) {
         for (var i = 0; i < rooms[roomid].players.length; i++) {

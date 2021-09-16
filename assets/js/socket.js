@@ -1,24 +1,21 @@
 
 
 const NOT_PLAYING = -1;
-
 const CREATING_LIE = 0;
 const CHOOSING_ANSWER = 1;
 const ANSWER_RESULTS = 2;
-const CHOOSING_BEST_LIE = 3;
-const BEST_LIE_RESULTS = 4;
 
 var gamestate = NOT_PLAYING;
 
 var isLeaving = false;
 
-window.onbeforeunload = function() {
-  if (gamestate != NOT_PLAYING) return "Confirm?";
-  // socket.onclose = function () {}; // disable onclose handler first
-  // socket.close();
+window.onbeforeunload = function () {
+    if (gamestate != NOT_PLAYING) return "Confirm?";
+    // socket.onclose = function () {}; // disable onclose handler first
+    // socket.close();
 }
 
-window.onpagehide = function() {
+window.onpagehide = function () {
     if (!isLeaving) socket.emit('delete player', roomID, nameID);
 };
 
@@ -30,7 +27,7 @@ window.onpagehide = function() {
 
 function leave(e) {
     e.preventDefault();
-    socket.emit('delete player', roomID, nameID, function() {
+    socket.emit('delete player', roomID, nameID, function () {
         isLeaving = true;
         location.reload();
     });
@@ -45,26 +42,26 @@ function endGame(e) {
 $("#end-game-button").unbind().on("click tap", endGame);
 $("#leave-game-button").unbind().on('click tap', leave);
 
-socket.on('game ended', function() {
-    backToWaitingRoom(function() {
+socket.on('game ended', function () {
+    backToWaitingRoom(function () {
         displayPrevScore = true;
         console.log('displayWaitingRoom4');
         displayWaitingRoom();
     });
 });
 
-socket.on('display current view', function(gamestart, gs) {
+socket.on('display current view', function (gamestart, gs) {
     if (!gamestart) {
         //go to main menu
-        backToWaitingRoom(function() {
-            displayPrevScore=true;
+        backToWaitingRoom(function () {
+            displayPrevScore = true;
             console.log('displayWaitingRoom3');
             displayWaitingRoom();
         });
     } else {
 
-        $('#playing').fadeOut(400, function() {
-            $('#create-answer, #selection-answers, #results, #best-lie, #lie-results').css('display','none');
+        $('#playing').fadeOut(400, function () {
+            $('#create-answer, #selection-answers, #results, #best-lie, #lie-results').css('display', 'none');
 
             $("#menu").removeClass('mSlideDown');
             $("#menu").removeClass('mSlideUp');
@@ -84,27 +81,22 @@ socket.on('display current view', function(gamestart, gs) {
             if (gs == CREATING_LIE && gamestate != gs) {
                 resetCreateLieDisplay();
                 setupCreatingLie();
-                $('#create-answer').css('display','block');
+                $('#create-answer').css('display', 'block');
                 $('#playing').fadeIn(400);
-            } else if (gs==CHOOSING_ANSWER) {
+            } else if (gs == CHOOSING_ANSWER) {
                 resetCreateLieDisplay();
-                displayAnswerSelection(function() {
-                    $('#selection-answers').css('display','block');
+                displayAnswerSelection(function () {
+                    $('#selection-answers').css('display', 'block');
                     $('#playing').fadeIn(400);
                 });
-            } else if (gs==ANSWER_RESULTS) {
-                displayResults(function() {
-                    $('#results').css('display','block');
+            } else if (gs == ANSWER_RESULTS) {
+                displayResults(function () {
+                    $('#results').css('display', 'block');
                     $('#playing').fadeIn(400);
                 });
-            } else if (gs==CHOOSING_BEST_LIE) {
-                displayVotingForLie(function() {
-                    $('#best-lie').css('display','block');
-                    $('#playing').fadeIn(400);
-                });
-            } else if (gs==BEST_LIE_RESULTS) {
-                displayLieResults(function() {
-                    $('#lie-results').css('display','block');
+            } else if (gs == CHOOSING_BEST_LIE) {
+                displayVotingForLie(function () {
+                    $('#best-lie').css('display', 'block');
                     $('#playing').fadeIn(400);
                 });
             }
@@ -117,19 +109,19 @@ socket.on('display current view', function(gamestart, gs) {
 
 
 var resetting = false;
-socket.on('player leave', function(gamestart, id) {
+socket.on('player leave', function (gamestart, id) {
     if (gamestart && !resetting) {
         //playing
         // if (nameID > id) nameID--;
         resetting = true;
 
 
-        backToWaitingRoom(function() {
-            $('#playerLeaveNotification').fadeIn(1500, function() {
+        backToWaitingRoom(function () {
+            $('#playerLeaveNotification').fadeIn(1500, function () {
                 socket.emit('end game', roomID);
-            }).fadeOut(400, function() {
+            }).fadeOut(400, function () {
                 resetting = false;
-                displayPrevScore=true;
+                displayPrevScore = true;
                 console.log('displayWaitingRoom2');
                 displayWaitingRoom();
             });
@@ -144,7 +136,7 @@ socket.on('player leave', function(gamestart, id) {
         } else {
             // if (nameID > id) nameID--;
             console.log('get players');
-            socket.emit("get players", roomID, function(p){
+            socket.emit("get players", roomID, function (p) {
                 displayPlayersInWaiting(p);
             });
 

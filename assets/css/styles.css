@@ -21,22 +21,38 @@ body {
 }
 
 .result-choice-title {
-    color:#faaa00;
-    font-size:1.4em;
+    color: #faaa00;
+    font-size: 1.4em;
     text-transform: none;
+    display: flex;
+    margin-bottom: 0;
 }
 
-.result-choice-title > .result-choice-point {
-    color:black;
+.clickable {
+    cursor: pointer;
+}
+
+.result-choice-text {
+    flex: 1;
+}
+
+.result-choice-point {
+    flex: 1;
+    width: 20%;
+    text-align: right;
+    padding-right: 15px;
+    color: black;
 }
 
 .result-choice-player-title {
     padding: 5px;
+    display: inline-block;
+    margin-right: 5px;
 }
 
 .result-choice-players {
     text-transform: none;
-    padding: 10px 5px;
+    padding: 10px 0px;
     font-size: 0.8em;
 }
 
@@ -44,31 +60,14 @@ body {
     margin-bottom: 5px;
 }
 
-.result-choice-name{
-    width: 70%;
-}
 
-.result-choice-point {
-    width: 30%;
-    float: right;
-    text-align:right;
-    padding-right: 15px;
-}
-
-#chooseAnswerReady, #chooseLieReady, #continue1Button, #nextRoundButton {
-    background-color:white;
-    color:black;
+#chooseAnswerReady, #nextRoundButton {
     position: fixed;
     bottom: 10px;
     z-index: 1;
     margin-bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    border: 1px solid black;
-    padding: .5rem 1rem;
-    user-select: none;
-    text-align:center;
-    background-color: #bdffbd;
 }
 
 #chooseAnswerReady, #chooseLieReady {
@@ -79,39 +78,35 @@ body {
     display: block;
 }
 
-#selection-answers, #results, #best-lie, #lie-results {
+#selection-answers, #results {
     width: 80%;
-    margin-top: 5rem;
+    margin-top: 3rem;
     margin-bottom: 7rem;
-    display:none;
+    display: none;
 }
 
-#selection-list, #lie-list, #results-list, #lie-results-list{
-  /* margin-bottom: 6.5rem; */
-}
-
-.selection-choice, .result-choice, .lie-choice {
-    margin: 30px auto;
+.selection-choice, .result-choice {
+    margin: 0 auto 30px auto;
     padding: 10px;
     border: 1px solid black;
     border-radius: 3px;
     text-transform: uppercase;
-
 }
 
-#selection-list > .selection-choice:hover, #lie-list > .lie-choice:hover {
+#selection-list > .selection-choice:hover {
     cursor: pointer;
 }
 
-#selection_player-answer, #lie_player-answer {
+#selection_player-answer {
     border: 1px solid #e5cbb7;
+    text-align: center;
 }
 
 .result-choice.result-answer {
     border: 2px solid #b7e5ba;
 }
 
-.selection-choice.selectedAnswer, .lie-choice.selectedLie {
+.selection-choice.selectedAnswer {
     background: repeating-linear-gradient(
             45deg,
             #ffffff,
@@ -141,14 +136,11 @@ body {
 
 #trivia-question {
     width: 85%;
-    font-size: 2rem;
-    margin-top: 3rem;
 }
 
 
-
+/* 
 .button-1 {
-    background-color: white;
     border: 2px solid #e5cbb7;
     padding: 5px 7px;
     border-radius:5px;
@@ -158,7 +150,7 @@ body {
     border: 2px solid gray !important;
     cursor: pointer;
 }
-.button-1:focus{outline:none;}
+.button-1:focus{outline:none;} */
 
 #create_submit-lie-button {
     padding: 10px 25px;

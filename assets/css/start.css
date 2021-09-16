@@ -126,10 +126,18 @@
     border: 1px solid #e5cbb7;
 }
 
-#start-join-game-button, .start-back-button {
+button, .button {
     font-size: 20px;
     padding: 10px 25px;
     border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+button:disabled, .btn-primary:disabled {
+    background-color: rgb(239, 239, 239) !important;
+    color: #999 !important;
+    border-color: #999 !important;
 }
 
 #start-join-button {
