@@ -82,6 +82,7 @@ io.on('connection', function (socket) {
         var qq = questionManager.getRandomQuestion();
         rooms[roomid].question = qq.question;
         rooms[roomid].answer = qq.answer[parseInt(qq.answer.length * Math.random())];
+        rooms[roomid].lies = qq.lies;
         rooms[roomid].gamestate = CREATING_LIE;
     }
 
@@ -251,8 +252,6 @@ io.on('connection', function (socket) {
             }
         }
     }
-
-
 
     socket.on('end game', function (roomid) {
         if (rooms[roomid] == null) return;

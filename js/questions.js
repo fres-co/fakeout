@@ -29,7 +29,7 @@ module.exports = {
   getRandomQuestion: function() {
     var qObj = questionList[queuedQuestions.pop()];
 
-    if (queuedQuestions.length==0) resetQueuedQuestions();
+    if (queuedQuestions.length == 0) resetQueuedQuestions();
 
     var qText = qObj.question;
     qText = qText.replace("<BLANK>","_____");
@@ -39,7 +39,8 @@ module.exports = {
 
     return {
       question: qText,
-      answer: ans
+      answer: ans,
+      lies: qObj.suggestions
     };
   }
 };

@@ -36,8 +36,14 @@ function resetAll() {
 
 }
 
+var lies = [];
+function generateRandomLie() {
+    $('#create_lie').val(lies[Math.floor(Math.random() * lies.length)]);
+}
+
 function setupCreatingLie(cb) {
     resetCreateLieDisplay();
+    $('#create_random_lie').on('click', generateRandomLie);
     $('#create_submit-lie-button').on('click', submitLie);
     setupRound();
     cb && cb();
@@ -46,6 +52,7 @@ function setupCreatingLie(cb) {
 function updateTriviaQuestion() {
     socket.emit('get room info', roomID, function (rm) {
         $('#trivia-question').html(rm.question);
+        lies = rm.lies;
     });
 }
 
@@ -59,6 +66,8 @@ function submitLie() {
     var lie = $('#create_lie').val();
     if (lie == "") return;
     $("#create_lie").attr("readonly", true);
+    $("#create_random_lie").attr('disabled', true);
+    $('#create_random_lie').off();
     $('#create_submit-lie-button').off().fadeOut(400);
     $('#create_ready-text').fadeIn(400, function () {
         socket.on('submitted lie', function (numReady, numTotal) {
@@ -88,6 +97,7 @@ function resetCreateLieDisplay() {
     socket.removeAllListeners("submitted lie");
     $('#create_lie').val("");
     $("#create_lie").attr("readonly", false);
+    $("#create_random_lie").removeAttr('disabled');
     $('#create_ready-text').css('display', 'none');
     $('#create_submit-lie-button').css('display', 'block');
     $('#create_ready-text').css('color', '#bc3838');

@@ -1,6 +1,8 @@
 [ ] Allow the game to continue playing when a user disconnects.
 [ ] Move to React.js
 [ ] Allow a player to join at any time.
+[ ] Suggest a lie
+[ ] Allow 2 players by using system lies
 [x] Pass room and name via query string
 [x] Remove the step to vote for best lie
 [x] Bug: when I leave, it shows two screens at the same time

@@ -130,7 +130,6 @@ body {
 }
 
 #create_lie {
-    width: 80%;
     text-transform: uppercase;
 }
 
@@ -173,10 +172,6 @@ body {
     #create_answer-box {
         max-width: 500px;
         border-radius: 7px;
-    }
-
-    #create_lie {
-        max-width: 350px;
     }
 
     ::-webkit-scrollbar {
