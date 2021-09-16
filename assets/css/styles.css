@@ -10,6 +10,10 @@ body {
     display:block;
 }
 
+.btn-outline-secondary {
+    background-color: #fff;
+}
+
 .result-pl {
     background: repeating-linear-gradient(
             45deg,
