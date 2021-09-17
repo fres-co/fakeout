@@ -176,7 +176,7 @@ function playSound(soundId, volume) {
 function displayWaitingRoom() {
     gamestate = NOT_PLAYING;
     
-    playSound("lobbySound", 0.1);
+    playSound("lobbySound", 0.05);
 
     document.getElementById("playing").style.display = "none";
     document.getElementById("menu").style.display = "block";
