@@ -1,10 +1,11 @@
-[ ] Allow the game to continue playing when a user disconnects.
 [ ] Move to React.js
-[ ] Allow a player to join at any time.
 [ ] Detect if the lie is actually the answer
 [ ] Allow 2 players by using system lies
-[ ] Only show menu if inside of game
-[ ] Add music and sound effects
+
+[x] Allow the game to continue playing when a user disconnects.
+[x] Allow a player to join at any time.
+[x] Only show menu if inside of game
+[x] Add music and sound effects
 [x] Suggest a lie
 [x] Pass room and name via query string
 [x] Remove the step to vote for best lie

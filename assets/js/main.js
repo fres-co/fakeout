@@ -63,6 +63,7 @@ function setupRound() {
 }
 
 function submitLie() {
+    playSound("playerAnsweredSound", 0.2);
     var lie = $('#create_lie').val();
     if (lie == "") return;
     $("#create_lie").attr("readonly", true);
@@ -157,6 +158,7 @@ function setupSelectableAnswers() {
     selectedAID = -1;
     $("#selection-list").children(".selection-choice").on("click tap", function (e) {
         e.preventDefault();
+        playSound("playerAnsweredSound", 0.2);
         $(this).addClass("selectedAnswer");
         selectedAID = $(this).attr("data-aid");
         $("#selection-list").children(".selection-choice").off();
@@ -181,7 +183,7 @@ function setupSelectableAnswers() {
 
 function displayResults(cb) {
     gamestate = ANSWER_RESULTS;
-
+    playSound("gongSound", 0.2);
 
     $("#nextRoundButton")
         .text("Next round")
@@ -209,6 +211,7 @@ function displayResults(cb) {
     });
 
     $('#nextRoundButton').off().on('click tap', function (e) {
+        playSound("playerAnsweredSound", 0.2);
         $(this).attr("disabled", "disabled");
         isReady = true;
         e.preventDefault();

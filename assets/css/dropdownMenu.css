@@ -9,8 +9,8 @@
     top: 0%;
     left: 50%;
     transform: translate(-50%, -100%);
-    z-index:1;
-    display:block;
+    z-index: 2;
+    display: none;
     background-color:white;
 }
 #menuDisplay {

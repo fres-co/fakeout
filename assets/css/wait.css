@@ -51,7 +51,7 @@
 }
 
 
-#waiting-player-list {
+.player-list {
     counter-reset: liC;
     margin: 0 auto;
     padding: 0;
@@ -59,7 +59,7 @@
     transform: translateX(-10px);
 }
 
-#waiting-player-list li {
+.player-list li {
     list-style-type: none;
     margin: 0 0 6px 2em;
     padding: 4px 8px;
@@ -67,7 +67,7 @@
     width: 100%;
 }
 
-#waiting-player-list li:before {
+.player-list li:before {
     counter-increment: liC;
     content: counter(liC)".";
     position: absolute;
@@ -102,8 +102,12 @@
     border-radius: 5px;
 }
 
+.is-hidden {
+    display: none;
+}
+
 @media only screen and (min-width: 600px) {
-    #waiting-player-list {
+    .player-list {
         width: 500px;
     }
 

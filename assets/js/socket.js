@@ -45,7 +45,6 @@ $("#leave-game-button").unbind().on('click tap', leave);
 socket.on('game ended', function () {
     backToWaitingRoom(function () {
         displayPrevScore = true;
-        console.log('displayWaitingRoom4');
         displayWaitingRoom();
     });
 });
@@ -55,7 +54,6 @@ socket.on('display current view', function (gamestart, gs) {
         //go to main menu
         backToWaitingRoom(function () {
             displayPrevScore = true;
-            console.log('displayWaitingRoom3');
             displayWaitingRoom();
         });
     } else {
@@ -109,10 +107,11 @@ socket.on('display current view', function (gamestart, gs) {
 
 
 var resetting = false;
-socket.on('player leave', function (gamestart, id) {
+socket.on('player leave', function (shouldRestart, gamestart, id) {
     if (gamestart && !resetting) {
         //playing
         // if (nameID > id) nameID--;
+        if (!shouldRestart) { return; }
         resetting = true;
 
 
@@ -122,20 +121,19 @@ socket.on('player leave', function (gamestart, id) {
             }).fadeOut(400, function () {
                 resetting = false;
                 displayPrevScore = true;
-                console.log('displayWaitingRoom2');
                 displayWaitingRoom();
             });
         });
 
 
+
     } else {
-        //waiting
+        // waiting
         if (id == nameID) {
             isLeaving = true;
             location.reload();
         } else {
             // if (nameID > id) nameID--;
-            console.log('get players');
             socket.emit("get players", roomID, function (p) {
                 displayPlayersInWaiting(p);
             });

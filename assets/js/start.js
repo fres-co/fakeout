@@ -4,6 +4,7 @@ var nameID;
 const urlParams = new URLSearchParams(window.location.search);
 var roomID = urlParams.get('room') || "";
 var name = urlParams.get('name') || "";
+var admin = "true" === urlParams.get('admin') || false;
  
 document.getElementById("start-join-roomid").value = roomID;
 document.getElementById("start-join-name").value = name;
@@ -106,7 +107,8 @@ nameID = uuidv4();
 
 
 function joinGame() {
-    console.log('joinGame');
+    playSound("playerAnsweredSound", 0.2);
+
     $("#start-join-game-button").off('click');
     setTimeout(function () {
         $("#start-join-game-button").on('click', joinGame);
@@ -128,10 +130,6 @@ function joinGame() {
             //room does not exist
             document.getElementById("start-join-error").innerText = "Room does not exist";
             document.getElementById("start-join-roomid").style.border = "2px solid red";
-        } else if (res == "started") {
-            //game in session
-            document.getElementById("start-join-error").innerText = "Game in session";
-            document.getElementById("start-join-roomid").style.border = "2px solid red";
         } else if (res == "full") {
             //game full
             document.getElementById("start-join-error").innerText = "Room full";
@@ -144,7 +142,6 @@ function joinGame() {
             document.getElementById("start").style.display = "none";
             nameID = nameId;
             roomID = room;
-            console.log('displayWaitingRoom');
             displayWaitingRoom();
         }
     });
@@ -153,10 +150,36 @@ function joinGame() {
 
 $("#start-join-game-button").click(joinGame);
    
+function goToPlaying() {
+    $('#waiting-room').fadeOut(800, function () {
+
+        WrulesActive = false;
+        document.getElementById("waiting-rule-display").style.display = "none";
+        document.getElementById("waiting-room").style.display = "none";
+        socket.removeAllListeners("start game");
+        socket.removeAllListeners("update players");
+        socket.removeAllListeners("player next round");
+
+        resetAll();
+        $('#create-answer').css('display', 'block');
+        setupCreatingLie();
+        $('#playing').fadeIn(400);
+
+    });
+}
+
+function playSound(soundId, volume) {
+    document.getElementById(soundId).volume = volume;
+    document.getElementById(soundId).play();
+}
 
 function displayWaitingRoom() {
     gamestate = NOT_PLAYING;
+    
+    playSound("lobbySound", 0.1);
+
     document.getElementById("playing").style.display = "none";
+    document.getElementById("menu").style.display = "block";
 
     $("#startButton").unbind().click(startGame);
     $("#leaveButton").unbind().click(leave);
@@ -169,7 +192,6 @@ function displayWaitingRoom() {
     $('#waiting-room').fadeIn(400);
 
     if (displayPrevScore) {
-        console.log('get players 2');
         socket.emit('get players', roomID, function (pl) {
             $('#prevScoreB').css('display', 'block');
             var s = "";
@@ -186,45 +208,31 @@ function displayWaitingRoom() {
 
 
 
-    console.log('get players3');
-    socket.emit("get players", roomID, function (p) {
-        displayPlayersInWaiting(p);
+    socket.emit("get players", roomID, function (players, waitingPlayers) {
+        displayPlayersInWaiting(players, waitingPlayers);
     });
 
-    socket.on('update players', function (players) {
-        displayPlayersInWaiting(players);
+    socket.on('update players', function (players, waitingPlayers) {
+        displayPlayersInWaiting(players, waitingPlayers);
     });
 
-
-
+    socket.on('player next round', function (numReady, numTotal) {
+        if (numReady >= numTotal / 2) {
+            goToPlaying();
+        }
+    });
 
     socket.on('game start', function () {
-        $('#waiting-room').fadeOut(800, function () {
-
-            WrulesActive = false;
-            document.getElementById("waiting-rule-display").style.display = "none";
-            document.getElementById("waiting-room").style.display = "none";
-            socket.removeAllListeners("start game");
-            socket.removeAllListeners("update players");
-
-            resetAll();
-            $('#create-answer').css('display', 'block');
-            setupCreatingLie();
-            $('#playing').fadeIn(400);
-
-        });
+        goToPlaying();
 
 
     });
 
 }
 
-
-
-function displayPlayersInWaiting(p) {
-    $("#startButton").attr('disabled', p.length < 3);
+function displayPlayerList(listId, players) {
     var s = "";
-    for (let pl of p) {
+    for (let pl of players) {
         if (nameID == pl.id) {
             s += "<li class=\"col-12 waiting-player\">" +
                 pl.name + " (You)" +
@@ -232,13 +240,30 @@ function displayPlayersInWaiting(p) {
                 "<i class=\"fas fa-pencil-alt\" data-id='" + pl.id + "'></i></span></li>";
         } else {
             s += "<li class=\"col-12 waiting-player\">" +
-                pl.name +
+                pl.name + 
+                (!admin ? "" : 
                 "<span class=\"editName\">" +
-                "<i class=\"fas fa-times deleteP\" data-id='" + pl.id + "'></i></span></li>";
+                "<i class=\"fas fa-times deleteP\" data-id='" + pl.id + "'></i></span></li>");
         }
     }
-    document.getElementById("waiting-player-list").innerHTML = s;
+    document.getElementById(listId).innerHTML = s;
+}
 
+function displayPlayersInWaiting(players) {
+
+    const waitingPlayers = players.filter(x => x.isWaiting);
+    const playingPlayers = players.filter(x => !x.isWaiting);
+
+    if (!playingPlayers.length) {
+        document.getElementById("currentlyPlaying").classList.add("is-hidden");
+    } else {
+        document.getElementById("currentlyPlaying").classList.remove("is-hidden");
+        displayPlayerList("playing-player-list", playingPlayers);
+    }
+    $("#startButton").attr('disabled', waitingPlayers.length < 3 || playingPlayers.length !== 0);
+    
+    displayPlayerList("waiting-player-list", waitingPlayers);
+    
     $(".deleteP").on("click", function (e) {
         e.preventDefault();
         socket.emit('delete player', roomID, $(this).attr("data-id"), function (res) {
@@ -260,6 +285,7 @@ function displayPlayersInWaiting(p) {
 
 function startGame(e) {
     e.preventDefault();
+    playSound("playerAnsweredSound", 0.2);
 
     $("#startButton").off("click");
 

@@ -21,14 +21,27 @@ class Room {
         this.gamestart = false;
         this.gamestate = -1;
         this.players = [];
-        // this.waitingPlayers = [];
 
         this.question = "";
         this.answer = "";
     }
     addPlayer(p) { this.players.push(p); }
-    // addWaitingPlayer(p) { this.waitingplayers.push(p); }
-    
+    getPlayingPlayers() {
+        return this.players.filter(x => !x.isWaiting);
+    }
+
+    markAllPlayersAsWaiting() {
+        for (var p of this.players) {
+            p.isWaiting = true;
+        }
+    }
+
+    markAllPlayersAsNotWaiting() {
+        for (var p of this.players) {
+            p.isWaiting = false;
+        }
+    }
+
     getPlayerById(id) {
         for (var p of this.players) {
             if (p.id == id) return p;
@@ -52,6 +65,7 @@ class Player {
         this.lieID = -1;
         this.selectedAnswer = false;
         this.selectedBestLie = false;
+        this.isWaiting = true;
 
     }
 }
@@ -65,21 +79,19 @@ const ANSWER_RESULTS = 2;
 
 var rooms = {};
 
+function findById(collection, playerId) {
+    for (const p of collection) {
+        if (p.id === playerId) {
+            return p;
+        }
+    }
+    return null;
+}
 
 io.on('connection', function (socket) {
     console.log("connected");
     let currentPlayerId = null;
     let currentRoomId = null;
-    // socket.emit('get room id', function (id) {
-    //     if (id != "") {
-    //         if (rooms[id] != null) {
-    //             socket.join(id);
-    //             socket.emit('display current view', rooms[id].gamestart, rooms[id].gamestate);
-    //             console.log(rooms[id]);
-    //         }
-    //     }
-    // });
-
 
     function setupRoom(roomid) {
         var qq = questionManager.getRandomQuestion();
@@ -89,21 +101,10 @@ io.on('connection', function (socket) {
         rooms[roomid].gamestate = CREATING_LIE;
     }
 
-    function findById(collection, playerId) {
-        for (const p of collection) {
-            if (p.id === playerId) {
-                return p;
-            }
-        }
-        return null;
-    }
-
     socket.on('submit lie', function (roomid, nameid, lie) {
         if (!rooms[roomid]) { return; }
 
-        console.log('submit lie', rooms[roomid].players, nameid);
         const player = findById(rooms[roomid].players, nameid);
-        console.log('submit lie', player);
         if (!player) { return; }
 
         player.lie = lie;
@@ -113,9 +114,10 @@ io.on('connection', function (socket) {
         for (var p of rooms[roomid].players) {
             if (p.submittedlie) { c++; }
         }
-        io.to(roomid).emit("submitted lie", c, rooms[roomid].players.length);
+        const playingPlayers = rooms[roomid].getPlayingPlayers();
+        io.to(roomid).emit("submitted lie", c, playingPlayers.length);
 
-        if (c == rooms[roomid].players.length) {
+        if (c == playingPlayers.length) {
             rooms[roomid].gamestate = CHOOSING_ANSWER;
         }
     });
@@ -138,16 +140,18 @@ io.on('connection', function (socket) {
     // });
 
     function resetRound(roomid) {
-        for (var i = 0; i < rooms[roomid].players.length; i++) {
-            rooms[roomid].players[i].isready = false;
-            rooms[roomid].players[i].nextRound = false;
-            rooms[roomid].players[i].continue1 = false;
-            rooms[roomid].players[i].submittedlie = false;
-            rooms[roomid].players[i].selectedAnswer = false;
-            rooms[roomid].players[i].selectedBestLie = false;
-            rooms[roomid].players[i].lie = "";
-            rooms[roomid].players[i].answerID = -1;
-            rooms[roomid].players[i].lieID = -1;
+        const room = rooms[roomid];
+        room.markAllPlayersAsNotWaiting();
+        for (var i = 0; i < room.players.length; i++) {
+            room.players[i].isready = false;
+            room.players[i].nextRound = false;
+            room.players[i].continue1 = false;
+            room.players[i].submittedlie = false;
+            room.players[i].selectedAnswer = false;
+            room.players[i].selectedBestLie = false;
+            room.players[i].lie = "";
+            room.players[i].answerID = -1;
+            room.players[i].lieID = -1;
         }
         setupRoom(roomid);
     }
@@ -164,9 +168,12 @@ io.on('connection', function (socket) {
         for (var p of rooms[roomid].players) {
             if (p.nextRound) c++;
         }
-        io.to(roomid).emit("player next round", c, rooms[roomid].players.length);
 
-        if (c >= rooms[roomid].players.length / 2) { 
+        const playingPlayers = rooms[roomid].getPlayingPlayers();
+        
+        io.to(roomid).emit("player next round", c, playingPlayers.length);
+
+        if (c >= playingPlayers.length / 2) { 
             resetRound(roomid);
         }
     });
@@ -183,7 +190,10 @@ io.on('connection', function (socket) {
         for (var p of rooms[roomid].players) {
             if (p.selectedAnswer) c++;
         }
-        io.to(roomid).emit("player selected answer", c, rooms[roomid].players.length);
+
+        
+        const playingPlayers = rooms[roomid].getPlayingPlayers();
+        io.to(roomid).emit("player selected answer", c, playingPlayers.length);
 
         if (c == rooms[roomid].players.length) {
             calculateResults(roomid);
@@ -262,6 +272,8 @@ io.on('connection', function (socket) {
         rooms[roomid].endGame = true;
         rooms[roomid].gamestart = false;
         rooms[roomid].startingGame = false;
+        rooms[roomid].markAllPlayersAsWaiting();
+        
         io.to(roomid).emit('game ended');
     });
 
@@ -269,6 +281,7 @@ io.on('connection', function (socket) {
         if (rooms[roomid] == null) return;
         if (rooms[roomid].players.length < 3) return;
         if (rooms[roomid].startingGame) return;
+
         rooms[roomid].startingGame = true;
         rooms[roomid].endingGame = false;
         rooms[roomid].gamestart = true;
@@ -309,11 +322,11 @@ io.on('connection', function (socket) {
             return;
         }
 
-        if (rooms[roomid].gamestart) {
-            // Already started
-            callback && callback("started", 0);
-            return;
-        }
+        // if (rooms[roomid].gamestart) {
+        //     // Already started
+        //     callback && callback("started", 0);
+        //     return;
+        // }
         if (rooms[roomid].players.length > 30) {
             // Too many players
             callback && callback("full", 0);
@@ -329,16 +342,18 @@ io.on('connection', function (socket) {
     });
 
     function deletePlayer(roomid, id, callback) {
-        if (rooms[roomid] == null) return;
-        rooms[roomid].players = rooms[roomid].players.filter(x => x.id !== id);
+        const room = rooms[roomid];
+        if (room == null) return;
+        room.players = room.players.filter(x => x.id !== id);
         
-        if (rooms[roomid].players.length == 1) {
+        if (room.players.length == 1) {
             delete rooms[roomid];
             callback && callback();
             return;
         }
         
-        io.to(roomid).emit('player leave', rooms[roomid].gamestart, id);
+        const shouldRestart = room.getPlayingPlayers().length < 3; 
+        io.to(roomid).emit('player leave', shouldRestart, rooms[roomid].gamestart, id);
         callback && callback();
     }
 
@@ -357,7 +372,6 @@ io.on('connection', function (socket) {
         console.log('disconnect', currentRoomId, currentPlayerId);
         if (currentRoomId) {
             deletePlayer(currentRoomId, currentPlayerId, null);
-            console.log(rooms[currentRoomId] && rooms[currentRoomId].players);
         }
     });
 });

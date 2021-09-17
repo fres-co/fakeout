@@ -193,8 +193,12 @@
       <h5>Room ID:
         <b><span id="wait-roomCode"></span></b>
       </h5>
-      <ol class="row mt-5" id="waiting-player-list">
-      </ol>
+      <ol class="player-list row mt-5" id="waiting-player-list"></ol>
+
+      <div id='currentlyPlaying'>
+        <h5 class="mt-5">Players finishing their round</h5>
+        <ol class="player-list row" id="playing-player-list"></ol>
+      </div>
       <div id="waiting-buttons" class="row mt-5">
         <div class="col-6">
           <button class="btn-primary" id="startButton">
@@ -212,8 +216,14 @@
 
   <div id="playerLeaveNotification"
     style="display:none; width: 90vw; text-align: center; position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%);">
-    <h1>Player Left<br><br><br>Resetting Game</h1>
+    <h1>A player left</h1>
+    <h2>Back to the lobby...</h2>
   </div>
+  
+ <audio id='lobbySound' src="/assets/res/lobby.mp3" loop></audio>
+ <audio id='playerAnsweredSound' src="/assets/res/player_answered.mp3"></audio>
+ <audio id='gongSound' src="/assets/res/gong.mp3"></audio>
+ <!-- //  document.getElementById('yourAudioTag').play(); -->
 
 
   <script src="../socket.io/socket.io.js"></script>
