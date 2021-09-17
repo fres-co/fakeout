@@ -44,7 +44,8 @@
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <button id='create_random_lie' class="btn btn-outline-secondary form-control" type="button"><i class='fas fa-random'></i></button>
+            <button id='create_random_lie' class="btn btn-outline-secondary form-control" type="button"><i
+                class='fas fa-random'></i></button>
           </div>
           <input type="text" class="form-control" id="create_lie" placeholder="Enter Lie">
         </div>
@@ -71,27 +72,28 @@
       <div id="results-list">
       </div>
 
-      <button id="nextRoundButton" class='btn-primary'>Next round</div>
+      <button id="nextRoundButton" class='btn-primary'>Next round
     </div>
+  </div>
 
-    <div id="menu">
-      <div id="toggleMenuButton">
-        <i class="fas fa-caret-down"></i>
+  <div id="menu">
+    <div id="toggleMenuButton">
+      <i class="fas fa-caret-down"></i>
+    </div>
+    <div id="menuDisplay">
+      <h3 class="text-center pt-3">Scoreboard</h3><br>
+      <div id="scoreboard" class="text-center pb-3">
       </div>
-      <div id="menuDisplay">
-        <h3 class="text-center pt-3">Scoreboard</h3><br>
-        <div id="scoreboard" class="text-center pb-3">
+      <div class="row my-2">
+        <div class="col-6" align="center">
+          <button class="button-1" id="end-game-button">End Game</button>
         </div>
-        <div class="row my-2">
-          <div class="col-6" align="center">
-            <button class="button-1" id="end-game-button">End Game</button>
-          </div>
-          <div class="col-6" align="center">
-            <button class="button-1" id="leave-game-button">Leave Game</button>
-          </div>
+        <div class="col-6" align="center">
+          <button class="button-1" id="leave-game-button">Leave Game</button>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <div id="start">
@@ -117,15 +119,15 @@
       </div>
     </div>
     <h1 class="mt-5 text-center">Fake Out <i class="fas fa-theater-masks"></i></h1>
-    
+
     <div id="start-join-display" class="mt-5">
-        <label for="start-join-roomid">Room ID</label>
-        <input type="text" class="form-control" aria-label="Large" id="start-join-roomid"
-          aria-describedby="inputGroup-sizing-sm" placeholder="Room ID" maxlength="20">
-          <br/>
-        <label for="start-join-name">Your name</label>
-        <input type="text" class="form-control" aria-describedby="inputGroup-sizing-default" placeholder="Your name"
-          maxlength="15" id="start-join-name">
+      <label for="start-join-roomid">Room ID</label>
+      <input type="text" class="form-control" aria-label="Large" id="start-join-roomid"
+        aria-describedby="inputGroup-sizing-sm" placeholder="Room ID">
+      <br />
+      <label for="start-join-name">Your name</label>
+      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-default" placeholder="Your name"
+        id="start-join-name">
       <h5 id="start-join-error" class="mt-3">
 
       </h5>

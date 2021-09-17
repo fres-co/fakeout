@@ -89,21 +89,8 @@ $('#prevScoreB').on('click', function (e) {
 
 document.getElementById("start-join-roomid").addEventListener('input', function (evt) {
     document.getElementById("start-join-error").innerText = "";
-
-    if (this.value.length != 4) {
-        this.style.border = "2px solid red";
-    } else {
-        this.style.border = "1px solid #e5cbb7";
-    }
 });
 
-document.getElementById("start-join-name").addEventListener('input', function (evt) {
-    if (this.value.length == 0) {
-        this.style.border = "2px solid red";
-    } else {
-        this.style.border = "1px solid #e5cbb7";
-    }
-});
 
 var prevScore = [];
 var displayPrevScore = false;

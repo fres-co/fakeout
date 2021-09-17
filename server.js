@@ -21,11 +21,14 @@ class Room {
         this.gamestart = false;
         this.gamestate = -1;
         this.players = [];
+        // this.waitingPlayers = [];
 
         this.question = "";
         this.answer = "";
     }
     addPlayer(p) { this.players.push(p); }
+    // addWaitingPlayer(p) { this.waitingplayers.push(p); }
+    
     getPlayerById(id) {
         for (var p of this.players) {
             if (p.id == id) return p;
