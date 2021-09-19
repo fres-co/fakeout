@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="../assets/css/dropdownMenu.css">
   <link rel="stylesheet" href="../assets/css/start.css">
   <link rel="stylesheet" href="../assets/css/wait.css">
+  <link rel="stylesheet" href="../assets/css/progress.css">
 
 
 </head>
@@ -202,7 +203,7 @@
       <div id="waiting-buttons" class="row mt-5">
         <div class="col-6">
           <button class="btn-primary" id="startButton">
-            Start
+            Start the game for everyone
           </button>
         </div>
         <div class="col-6">
@@ -219,8 +220,11 @@
     <h1>A player left</h1>
     <h2>Back to the lobby...</h2>
   </div>
+
+  <div id='progressBar'><div id='progress'></div></div>
   
  <audio id='lobbySound' src="/assets/res/lobby.mp3" loop></audio>
+ <audio id='wrongSound' src="/assets/res/wrong.mp3"></audio>
  <audio id='playerAnsweredSound' src="/assets/res/player_answered.mp3"></audio>
  <audio id='gongSound' src="/assets/res/gong.mp3"></audio>
  <!-- //  document.getElementById('yourAudioTag').play(); -->
@@ -231,6 +235,8 @@
     var socket = io();
   </script>
 
+  <script src="../assets/js/sound.js"></script>
+  <script src="../assets/js/countdown.js"></script>
   <script src="../assets/js/start.js"></script>
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/socket.js"></script>

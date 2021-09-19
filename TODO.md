@@ -1,6 +1,17 @@
+
+```npm start```
+
+
 [ ] Move to React.js
 [ ] Detect if the lie is actually the answer
 [ ] Allow 2 players by using system lies
+
+[x] Timer with fake answer
+[ ] Show names of people ready
+[ ] Duplicate answers should be collapsed
+[ ] Randomize answers
+[ ] Resilient connection
+[ ] Proper leaderboard
 
 [x] Allow the game to continue playing when a user disconnects.
 [x] Allow a player to join at any time.

@@ -35,11 +35,11 @@ module.exports = {
     qText = qText.replace("<BLANK>","_____");
 
     var ans = [qObj.answer];
-    ans = ans.concat(qObj.alternateSpellings);
-
+    
     return {
       question: qText,
       answer: ans,
+      answerAlternateSpellings: qObj.alternateSpellings,
       lies: qObj.suggestions
     };
   }

@@ -168,15 +168,10 @@ function goToPlaying() {
     });
 }
 
-function playSound(soundId, volume) {
-    document.getElementById(soundId).volume = volume;
-    document.getElementById(soundId).play();
-}
-
 function displayWaitingRoom() {
     gamestate = NOT_PLAYING;
-    
-    playSound("lobbySound", 0.05);
+    clearCountDown();
+    playSound("lobbySound", 0.03);
 
     document.getElementById("playing").style.display = "none";
     document.getElementById("menu").style.display = "block";

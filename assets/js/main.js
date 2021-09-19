@@ -41,13 +41,19 @@ function generateRandomLie() {
     $('#create_lie').val(lies[Math.floor(Math.random() * lies.length)]);
 }
 
+
 function setupCreatingLie(cb) {
     resetCreateLieDisplay();
     $('#create_random_lie').on('click', generateRandomLie);
     $('#create_submit-lie-button').on('click', submitLie);
     setupRound();
     cb && cb();
+    countDown(function() {
+        generateRandomLie();
+        submitLie();
+    });
 }
+ 
 
 function updateTriviaQuestion() {
     socket.emit('get room info', roomID, function (rm) {
@@ -88,13 +94,13 @@ function submitLie() {
                 });
             }
         });
-        console.log('nameID', nameID);
         socket.emit('submit lie', roomID, nameID, lie);
     });
 
 }
 
 function resetCreateLieDisplay() {
+    clearCountDown();
     socket.removeAllListeners("submitted lie");
     $('#create_lie').val("");
     $("#create_lie").attr("readonly", false);
@@ -141,47 +147,54 @@ function displayAnswerSelection(cb) {
             d1.innerText = pl[i].lie;
             d1.setAttribute("data-aid", pl[i].id);
             document.getElementById("selection-list").appendChild(d1);
-
-
         }
 
         setupSelectableAnswers();
         cb && cb();
+        countDown(function() {
+            onPlayerSelectAnswer(-1);
+        });
     });
 }
 
 var selectedAID = -1;
-//0 is the answer
+// 0 is the answer
+
+function onPlayerSelectAnswer(selectedAnswerId) {
+    $("#selection-list").children(".selection-choice").off();
+
+    socket.on('player selected answer', function (numReady, numTotal) {
+        $("#chooseAnswerReady").text(numReady + " / " + numTotal + " Ready");
+        $("#chooseAnswerReady").addClass('is-visible');
+        if (numReady == numTotal) {
+            socket.removeAllListeners("player selected answer");
+            $('#selection-answers').fadeOut(400, function () {
+                updateScoreboard();
+                displayResults(function () {
+                    $('#results').fadeIn(400);
+                });
+            });
+        }
+    });
+
+    socket.emit('player selected answer', roomID, nameID, selectedAnswerId);
+}
 
 function setupSelectableAnswers() {
     $("#chooseAnswerReady").removeClass('is-visible');
     selectedAID = -1;
     $("#selection-list").children(".selection-choice").on("click tap", function (e) {
         e.preventDefault();
+        clearCountDown();
         playSound("playerAnsweredSound", 0.2);
         $(this).addClass("selectedAnswer");
         selectedAID = $(this).attr("data-aid");
-        $("#selection-list").children(".selection-choice").off();
-
-        socket.on('player selected answer', function (numReady, numTotal) {
-            $("#chooseAnswerReady").text(numReady + " / " + numTotal + " Ready");
-            $("#chooseAnswerReady").addClass('is-visible');
-            if (numReady == numTotal) {
-                socket.removeAllListeners("player selected answer");
-                $('#selection-answers').fadeOut(400, function () {
-                    updateScoreboard();
-                    displayResults(function () {
-                        $('#results').fadeIn(400);
-                    });
-                });
-            }
-        });
-
-        socket.emit('player selected answer', roomID, nameID, selectedAID);
+        onPlayerSelectAnswer(selectedAID);
     });
 }
 
 function displayResults(cb) {
+
     gamestate = ANSWER_RESULTS;
     playSound("gongSound", 0.2);
 
@@ -190,6 +203,11 @@ function displayResults(cb) {
         .removeAttr("disabled");
         
     let isReady = false;
+
+    countDown(function() {
+        isReady = true;
+        socket.emit('player next round', roomID, nameID);
+    });
 
     socket.on('player next round', function (numReady, numTotal) {
         $("#nextRoundButton")
@@ -211,6 +229,7 @@ function displayResults(cb) {
     });
 
     $('#nextRoundButton').off().on('click tap', function (e) {
+        clearCountDown();
         playSound("playerAnsweredSound", 0.2);
         $(this).attr("disabled", "disabled");
         isReady = true;
