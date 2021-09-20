@@ -36,9 +36,12 @@ function resetAll() {
 
 }
 
-var lies = [];
+let room = null;
 function generateRandomLie() {
-    $('#create_lie').val(lies[Math.floor(Math.random() * lies.length)]);
+    if (!room) {
+        return;
+    }
+    $('#create_lie').val(room.suggestions[Math.floor(Math.random() * room.suggestions.length)]);
 }
 
 
@@ -58,7 +61,7 @@ function setupCreatingLie(cb) {
 function updateTriviaQuestion() {
     socket.emit('get room info', roomID, function (rm) {
         $('#trivia-question').html(rm.question);
-        lies = rm.lies;
+        room = rm;
     });
 }
 
@@ -72,6 +75,18 @@ function submitLie() {
     playSound("playerAnsweredSound", 0.2);
     var lie = $('#create_lie').val();
     if (lie == "") return;
+
+    // Compare with list of alternative spellings
+    if (lie == room.answer || room.answerAlternateSpellings.indexOf(lie) !== -1) {
+        // Show message
+        // Show red border
+        document.getElementById("create_lie").style.border = "2px solid red";
+        document.getElementById("create_lie_error").innerText = 'This "lie" is actually the answer, find another lie :)';
+        return;
+    }
+    document.getElementById("create_lie").style.border = null;
+    document.getElementById("create_lie_error").innerText = '';
+
     $("#create_lie").attr("readonly", true);
     $("#create_random_lie").attr('disabled', true);
     $('#create_random_lie').off();
@@ -109,6 +124,9 @@ function resetCreateLieDisplay() {
     $('#create_submit-lie-button').css('display', 'block');
     $('#create_ready-text').css('color', '#bc3838');
     $('#create_ready-text').text("Ready");
+    document.getElementById("create_lie").style.border = null;
+    document.getElementById("create_lie_error").innerText = '';
+
 }
 
 

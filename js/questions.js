@@ -29,18 +29,11 @@ module.exports = {
   getRandomQuestion: function() {
     var qObj = questionList[queuedQuestions.pop()];
 
-    if (queuedQuestions.length == 0) resetQueuedQuestions();
+    if (queuedQuestions.length == 0) { resetQueuedQuestions(); }
 
     var qText = qObj.question;
     qText = qText.replace("<BLANK>","_____");
-
-    var ans = [qObj.answer];
     
-    return {
-      question: qText,
-      answer: ans,
-      answerAlternateSpellings: qObj.alternateSpellings,
-      lies: qObj.suggestions
-    };
+    return { ...qObj, question: qObj.question.replace("<BLANK>","_____") };
   }
 };

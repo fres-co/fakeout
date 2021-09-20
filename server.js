@@ -96,8 +96,9 @@ io.on('connection', function (socket) {
     function setupRoom(roomid) {
         var qq = questionManager.getRandomQuestion();
         rooms[roomid].question = qq.question;
-        rooms[roomid].answer = qq.answer[parseInt(qq.answer.length * Math.random())];
-        rooms[roomid].lies = qq.lies;
+        rooms[roomid].answer = qq.answer;
+        rooms[roomid].suggestions = qq.suggestions;
+        rooms[roomid].answerAlternateSpellings = qq.alternateSpellings;
         rooms[roomid].gamestate = CREATING_LIE;
     }
 
