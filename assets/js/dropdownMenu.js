@@ -8,12 +8,10 @@ $('#toggleMenuButton').on('click', function(e) {
     if (menuActive) {
         $("#menu").removeClass('mSlideUp');
         $("#menu").addClass('mSlideDown');
-        document.getElementById('toggleMenuButton').innerHTML = '<i class="fas fa-caret-up"></i>';
         $(this).css('top', '-14%');
     } else {
         $("#menu").removeClass('mSlideDown');
         $("#menu").addClass('mSlideUp');
-        document.getElementById('toggleMenuButton').innerHTML = '<i class="fas fa-caret-down"></i>';
         $(this).css('top', '100%');
     }
 });
