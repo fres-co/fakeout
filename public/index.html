@@ -43,16 +43,18 @@
       <div id="create_answer-box" class="mt-5 mx-auto">
         <h4 class="mt-2">Create a Lie</h4>
 
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <button id='create_random_lie' class="btn btn-outline-secondary form-control" type="button"><i
-                class='fas fa-random'></i></button>
+        <form id="create_answer_form">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button id='create_random_lie' class="btn btn-outline-secondary form-control" type="button"><i
+                  class='fas fa-random'></i></button>
+            </div>
+            <input type="text" class="form-control" id="create_lie" placeholder="Enter Lie"><div id='create_lie_error'></div>
           </div>
-          <input type="text" class="form-control" id="create_lie" placeholder="Enter Lie"><div id='create_lie_error'></div>
-        </div>
 
 
-        <button class="mb-2 mx-auto button-1 btn-block btn-primary" id="create_submit-lie-button">Submit</button>
+          <button type="submit" class="mb-2 mx-auto button-1 btn-block btn-primary" id="create_submit-lie-button">Submit</button>
+        </form>
       </div>
       <h1 id="create_ready-text" class="ready-text mt-5"></h1>
 
@@ -88,6 +90,9 @@
       <div class="row my-2">
         <div class="col-6" align="center">
           <button class="button-1" id="end-game-button">End Game</button>
+        </div>
+        <div class="col-6" align="center">
+          <button class="button-1" id="leave-game-button">Leave Game</button>
         </div>
       </div>
     </div>

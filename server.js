@@ -279,6 +279,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('start game', function (roomid) {
+        console.log('start game');
         if (rooms[roomid] == null) return;
         if (rooms[roomid].players.length < 3) return;
         if (rooms[roomid].startingGame) return;

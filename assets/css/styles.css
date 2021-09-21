@@ -38,6 +38,7 @@ body {
 
 .result-choice-text {
     flex: 1;
+    text-transform: uppercase;
 }
 
 .result-choice-point {

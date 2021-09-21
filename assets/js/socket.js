@@ -39,6 +39,7 @@ function endGame(e) {
 }
 
 
+$("#leave-game-button").unbind().on("click tap", leave);
 $("#end-game-button").unbind().on("click tap", endGame);
 
 socket.on('game ended', function () {

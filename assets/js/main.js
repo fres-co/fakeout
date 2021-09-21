@@ -48,9 +48,10 @@ function setupCreatingLie(cb) {
     resetCreateLieDisplay();
     $('#create_random_lie').on('click', generateRandomLie);
     $('#create_submit-lie-button').on('click', submitLie);
+    $('#create_answer_form').on('submit', submitLie);
     setupRound();
     cb && cb();
-    countDown(function() {
+    countDown(40, function() {
         generateRandomLie();
         submitLie();
     });
@@ -70,7 +71,10 @@ function setupRound() {
     updateTriviaQuestion();
 }
 
-function submitLie() {
+function submitLie(e) {
+    if (e) {
+        e.preventDefault();
+    }
     playSound("playerAnsweredSound", 0.2);
     var lie = $('#create_lie').val();
     if (lie == "") return;
@@ -89,6 +93,7 @@ function submitLie() {
     $("#create_lie").attr("readonly", true);
     $("#create_random_lie").attr('disabled', true);
     $('#create_random_lie').off();
+    $('#create_answer_form').off();
     $('#create_submit-lie-button').off().fadeOut(400);
     $('#create_ready-text').fadeIn(400, function () {
         socket.on('submitted lie', function (numReady, numTotal) {
@@ -169,7 +174,7 @@ function displayAnswerSelection(cb) {
 
         setupSelectableAnswers();
         cb && cb();
-        countDown(function() {
+        countDown(30, function() {
             onPlayerSelectAnswer(-1);
         });
     });
@@ -222,7 +227,7 @@ function displayResults(cb) {
         
     let isReady = false;
 
-    countDown(function() {
+    countDown(30, function() {
         isReady = true;
         socket.emit('player next round', roomID, nameID);
     });
