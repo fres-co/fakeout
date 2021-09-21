@@ -21,7 +21,6 @@ function resetAll() {
 
     $("#menu").removeClass('mSlideDown');
     $("#menu").removeClass('mSlideUp');
-    document.getElementById('toggleMenuButton').innerHTML = '<i class="fas fa-caret-down"></i>';
     $('#toggleMenuButton').css('top', '100%');
     menuActive = false;
 

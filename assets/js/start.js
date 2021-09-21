@@ -299,7 +299,6 @@ function backToWaitingRoom(cb) {
         $("#menu").removeClass('mSlideDown');
         $("#menu").addClass('mSlideUp');
     }
-    document.getElementById('toggleMenuButton').innerHTML = '<i class="fas fa-caret-down"></i>';
     $('#toggleMenuButton').css('top', '100%');
 
     $('#playing').fadeOut(1000, function () {

@@ -346,13 +346,11 @@ io.on('connection', function (socket) {
         const room = rooms[roomid];
         if (room == null) return;
         room.players = room.players.filter(x => x.id !== id);
-        
-        if (room.players.length == 1) {
+        if (room.players.length == 0) {
             delete rooms[roomid];
             callback && callback();
             return;
         }
-        
         const shouldRestart = room.getPlayingPlayers().length < 3; 
         io.to(roomid).emit('player leave', shouldRestart, rooms[roomid].gamestart, id);
         callback && callback();

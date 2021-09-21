@@ -40,7 +40,6 @@ function endGame(e) {
 
 
 $("#end-game-button").unbind().on("click tap", endGame);
-$("#leave-game-button").unbind().on('click tap', leave);
 
 socket.on('game ended', function () {
     backToWaitingRoom(function () {
@@ -63,7 +62,6 @@ socket.on('display current view', function (gamestart, gs) {
 
             $("#menu").removeClass('mSlideDown');
             $("#menu").removeClass('mSlideUp');
-            document.getElementById('toggleMenuButton').innerHTML = '<i class="fas fa-caret-down"></i>';
             $('#toggleMenuButton').css('top', '100%');
             menuActive = false;
 
