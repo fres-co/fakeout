@@ -98,6 +98,11 @@ body {
     text-transform: uppercase;
 }
 
+#selection-list, #results-list {
+    columns: 2;
+    break-inside: avoid;
+}
+
 #selection-list > .selection-choice:hover {
     cursor: pointer;
 }
@@ -171,9 +176,7 @@ body {
     #trivia-question {
         margin-top: 5rem;
     }
-    #selection-answers, #results, #best-lie, #lie-results {
-        max-width:500px;
-    }
+    
     #create_answer-box {
         max-width: 500px;
         border-radius: 7px;
