@@ -108,6 +108,7 @@ function submitLie() {
                 });
             }
         });
+        clearCountDown();
         socket.emit('submit lie', roomID, nameID, lie);
     });
 
