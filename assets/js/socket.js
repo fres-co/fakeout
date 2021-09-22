@@ -35,7 +35,9 @@ function leave(e) {
 
 function endGame(e) {
     e.preventDefault();
-    socket.emit('end game', roomID);
+    if (confirm('Are you sure you want to end the game for everyone?')) {
+        socket.emit('end game', roomID);
+    }
 }
 
 
@@ -60,11 +62,6 @@ socket.on('display current view', function (gamestart, gs) {
 
         $('#playing').fadeOut(400, function () {
             $('#create-answer, #selection-answers, #results, #best-lie, #lie-results').css('display', 'none');
-
-            $("#menu").removeClass('mSlideDown');
-            $("#menu").removeClass('mSlideUp');
-            $('#toggleMenuButton').css('top', '100%');
-            menuActive = false;
 
             updateScoreboard();
             updateTriviaQuestion();

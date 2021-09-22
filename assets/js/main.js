@@ -19,11 +19,6 @@ function addTag(parentEl, tagName, className, innerText) {
 function resetAll() {
     $('#create-answer, #selection-answers, #results, #best-lie, #lie-results').css('display', 'none');
 
-    $("#menu").removeClass('mSlideDown');
-    $("#menu").removeClass('mSlideUp');
-    $('#toggleMenuButton').css('top', '100%');
-    menuActive = false;
-
     updateScoreboard();
     updateTriviaQuestion();
 
@@ -51,7 +46,7 @@ function setupCreatingLie(cb) {
     $('#create_answer_form').on('submit', submitLie);
     setupRound();
     cb && cb();
-    countDown(40, function() {
+    countDown(40, true, function() {
         generateRandomLie();
         submitLie();
     });
@@ -122,6 +117,9 @@ function submitLie(e) {
 function resetCreateLieDisplay() {
     clearCountDown();
     socket.removeAllListeners("submitted lie");
+    $("#leave-game-button").show();
+    $("#end-game-button").show();
+
     $('#create_lie').val("");
     $("#create_lie").attr("readonly", false);
     $("#create_random_lie").removeAttr('disabled');
@@ -174,7 +172,7 @@ function displayAnswerSelection(cb) {
 
         setupSelectableAnswers();
         cb && cb();
-        countDown(30, function() {
+        countDown(30, true, function() {
             onPlayerSelectAnswer(-1);
         });
     });
@@ -216,6 +214,18 @@ function setupSelectableAnswers() {
     });
 }
 
+function displayScoreboard() {
+    updateScoreboard();
+    $('#playing').hide();
+    $('#scoreboard_screen').fadeIn(400);
+    countDown(5, false, () => {
+        $('#scoreboard_screen').hide();
+        $('#create-answer').css('display', 'block');
+        setupCreatingLie();
+        $('#playing').fadeIn(400);
+    });
+}
+
 function displayResults(cb) {
 
     gamestate = ANSWER_RESULTS;
@@ -227,7 +237,7 @@ function displayResults(cb) {
         
     let isReady = false;
 
-    countDown(30, function() {
+    countDown(30, true, function() {
         isReady = true;
         socket.emit('player next round', roomID, nameID);
     });
@@ -236,14 +246,11 @@ function displayResults(cb) {
         $("#nextRoundButton")
             .text((isReady ? (numReady + " / " + numTotal + " Ready") : "Next round"));
 
-        if (numReady >= numTotal / 2) {
+        if (numReady >= numTotal * .75) {
             socket.removeAllListeners("player next round");
             $('#results').fadeOut(400);
 
-            $('#create-answer').css('display', 'block');
-            setupCreatingLie();
-            $('#playing').fadeIn(400);
-            
+            displayScoreboard();
             // displayVotingForLie(function () {
             //     $('#best-lie').fadeIn(400);
                 

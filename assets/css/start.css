@@ -1,43 +1,17 @@
 
 
-#rules, #waiting-rules {
-    font-size: 25px;
-    position: absolute;
-    top: 2%;
-    left: 5%;
-}
-#rules:hover, #waiting-rules:hover {
-    color: gray;
-    cursor: pointer;
-}
-
-#rule-display, #waiting-rule-display {
-    position:absolute;
-    z-index: 1;
-    width: 80%;
-    height: 85%;
-    background-color: #f7f7f7;
-    padding: 20px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid #e5cbb7;
-    border-radius: 5px;
-    display:none;
-}
-
-#close-rule-display, #waiting-close-rule-display {
+#close-rule-display {
     position: absolute;
     top: 1%;
     right: 5%;
 }
 
-#close-rule-display:hover, #waiting-close-rule-display:hover {
+#close-rule-display:hover {
     color: gray;
     cursor: pointer;
 }
 
-#rule-traditional, #waiting-rule-traditional {
+#rule-traditional {
     width: 100%;
     overflow-y:auto;
     font-size:1rem;
@@ -61,29 +35,17 @@
     text-align: center;
 }
 
-#prevScoreDisplay {
-  position: absolute;
-  width: 80%;
-  height: 80vh;
-  border: 1px solid black;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index:1;
-  display:none;
-  background-color:white;
-}
-
-#prevScoreB {
-  position: absolute;
-  display:none;
-  top: 2%;
-  right: 5%;
-   user-select: none;
-}
-
-#prevScoreB:hover {
-  cursor: pointer;
+.modal {
+    position: absolute;
+    width: 80%;
+    height: 80vh;
+    border: 1px solid black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: none;
+    background-color: white;
 }
 
 #close-prevScore-display {

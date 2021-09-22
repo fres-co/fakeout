@@ -5,7 +5,7 @@ function clearCountDown() {
     document.getElementById('progress').style.width = '100%';
 }
 
-function countDown(duration, callBack) {
+function countDown(duration, shouldPlaySound, callBack) {
     let countdown = duration;
     clearInterval(progressBarInterval);
     progressBarInterval = setInterval(() => {
@@ -14,7 +14,9 @@ function countDown(duration, callBack) {
         if (countdown !== 0) {
             document.getElementById('progress').style.width = (countdown * 100 / duration) + '%';
         } else {
-            playSound('wrongSound', 0.5);
+            if (shouldPlaySound) {
+                playSound('wrongSound', 0.5);
+            }
             clearInterval(progressBarInterval);
             callBack();
         }

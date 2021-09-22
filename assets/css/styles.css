@@ -2,12 +2,12 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
-#playing {
-  display:none;
+#playing, #scoreboard_screen {
+  display: none;
 }
 
 #create-answer {
-    display:block;
+    display: block;
 }
 
 .btn-outline-secondary {
@@ -93,6 +93,7 @@ body {
 .selection-choice, .result-choice {
     margin: 0 auto 30px auto;
     padding: 10px;
+    break-inside: avoid-column;
     border: 1px solid black;
     border-radius: 3px;
     text-transform: uppercase;
@@ -170,6 +171,16 @@ body {
     color:#bc3838;
     display: none;
     transition: color 0.5s ease-in-out;
+}
+
+.top-menu {
+    display: flex;
+    justify-content: flex-end;  
+    margin-top: .5rem;
+}
+
+.hidden {
+    display: none;
 }
 
 @media only screen and (min-width: 600px) {

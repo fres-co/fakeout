@@ -174,7 +174,7 @@ io.on('connection', function (socket) {
         
         io.to(roomid).emit("player next round", c, playingPlayers.length);
 
-        if (c >= playingPlayers.length / 2) { 
+        if (c >= playingPlayers.length * .75) { 
             resetRound(roomid);
         }
     });

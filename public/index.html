@@ -26,7 +26,6 @@
     crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <link rel="stylesheet" href="../assets/css/dropdownMenu.css">
   <link rel="stylesheet" href="../assets/css/start.css">
   <link rel="stylesheet" href="../assets/css/wait.css">
   <link rel="stylesheet" href="../assets/css/progress.css">
@@ -36,7 +35,16 @@
 
 <body>
 
+  <div class="top-menu">
+    <a class="nav-link hidden" href="#" id="prevScoreB">Previous score</a>
+    <a class="nav-link hidden" href="#" id="leave-game-button">Leave game</a>
+    <a class="nav-link hidden" href="#" id="end-game-button">End game</a>
+    <a class="nav-link" href="#" id="rules">Rules</a>
+    
+  </div>
+
   <div id="playing">
+
     <h1 id="trivia-question" class="mt-5 mx-auto text-center"></h1>
 
     <div id="create-answer" class="text-center mb-5">
@@ -49,11 +57,13 @@
               <button id='create_random_lie' class="btn btn-outline-secondary form-control" type="button"><i
                   class='fas fa-random'></i></button>
             </div>
-            <input type="text" class="form-control" id="create_lie" placeholder="Enter Lie"><div id='create_lie_error'></div>
+            <input type="text" class="form-control" id="create_lie" placeholder="Enter Lie">
+            <div id='create_lie_error'></div>
           </div>
 
 
-          <button type="submit" class="mb-2 mx-auto button-1 btn-block btn-primary" id="create_submit-lie-button">Submit</button>
+          <button type="submit" class="mb-2 mx-auto button-1 btn-block btn-primary"
+            id="create_submit-lie-button">Submit</button>
         </form>
       </div>
       <h1 id="create_ready-text" class="ready-text mt-5"></h1>
@@ -75,52 +85,17 @@
       <div id="results-list">
       </div>
 
-      <button id="nextRoundButton" class='btn-primary'>Next round
+      <button id="nextRoundButton" class='btn-primary'>Next round</button>
     </div>
+
   </div>
 
-  <div id="menu">
-    <div id="toggleMenuButton">
-      <img src='/assets/res/leaderboard.svg' width='32' />
-    </div>
-    <div id="menuDisplay">
-      <h3 class="text-center pt-3">Scoreboard</h3><br>
-      <div id="scoreboard" class="text-center pb-3">
-      </div>
-      <div class="row my-2">
-        <div class="col-6" align="center">
-          <button class="button-1" id="end-game-button">End Game</button>
-        </div>
-        <div class="col-6" align="center">
-          <button class="button-1" id="leave-game-button">Leave Game</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="scoreboard_screen">
+    <h1 class="mt-5 mx-auto text-center">Scoreboard</h1>
+    <div id="scoreboard" class="text-center pb-3"></div>
   </div>
 
   <div id="start">
-    <div id="rules">
-      <i class="fas fa-question-circle"></i>
-    </div>
-    <div id="rule-display">
-      <div id="close-rule-display">
-        <i class="fas fa-times"></i>
-      </div>
-      <h2 class="text-center mt-4">Rules</h2>
-      <div id="rule-traditional" class="mt-3 py-3">
-        All players will be given the same question or statement.
-        <br><br>Each player will create a lie that seems most reasonable.<br><br>
-        Afterwards, all the lies (and one truth)
-        is put into a pool of answers where everyone
-        then has to pick which answer they believe is true. (You can't pick your own).
-        <br><br>
-        If you get people to pick your lie, you get <b>1 point</b> for each player.
-        <br>If you guess the truth you get <b>2 points</b>.
-        <br><br>Round then restarts.
-
-      </div>
-    </div>
     <h1 class="mt-5 text-center">Fake Out <i class="fas fa-theater-masks"></i></h1>
 
     <div id="start-join-display" class="mt-5">
@@ -145,52 +120,6 @@
   </div>
 
   <div id="waiting-room" class="my-5">
-    <div id="waiting-rules">
-      <i class="fas fa-question-circle"></i>
-    </div>
-    <div id="prevScoreB" class="text-center">
-      <h6>Previous score</h6>
-    </div>
-    <div id="prevScoreDisplay">
-      <div id="close-prevScore-display">
-        <i class="fas fa-times"></i>
-      </div>
-      <h3 class="text-center pt-3">Scoreboard</h3><br>
-      <div id="prevScoreDisplayP" class="text-center">
-      </div>
-    </div>
-    <div id="waiting-rule-display">
-      <div id="waiting-close-rule-display">
-        <i class="fas fa-times"></i>
-      </div>
-      <h2 class="text-center mt-4">Rules</h2>
-      <div id="waiting-rule-traditional" class="mt-3 py-3">
-        All players will be given the same question or statement.
-        <br><br>Each player will create a lie that seems most reasonable.<br><br>
-        Afterwards, all the lies (and one truth)
-        is put into a pool of answers where everyone
-        then has to pick which answer they believe is true. (You can't pick your own).
-        <br><br>
-        If you get people to pick your lie, you get <b>1 point</b> for each player.
-        <br>If you guess the truth you get <b>2 points</b>.
-        <br><br>Round then restarts.
-
-      </div>
-    </div>
-
-    <div id="change-name">
-      <h2 class="text-center mt-3">Change Name</h2>
-      <div id="change-name-close">
-        <i class="fas fa-times"></i>
-      </div>
-      <div class="input-group mt-4">
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
-          placeholder="Name" maxlength="15" id="change-name-name">
-      </div>
-      <button class="button-1" id="change-name-save-button">Save</button>
-      <br>
-      <button class="button-1" id="change-name-cancel-button">Cancel</button>
-    </div>
     <div id="waiting-display">
       <h1>Lobby</h1>
       <h5>Room ID:
@@ -217,19 +146,63 @@
     </div>
   </div>
 
+  <div class="modal" id="prevScoreDisplay">
+    <div id="close-prevScore-display">
+      <i class="fas fa-times"></i>
+    </div>
+    <h3 class="text-center pt-3">Scoreboard</h3><br>
+    <div id="prevScoreDisplayP" class="text-center">
+    </div>
+  </div>
+
+  <div class="modal" id="rule-display">
+    <div id="close-rule-display">
+      <i class="fas fa-times"></i>
+    </div>
+    <h2 class="text-center mt-4">Rules</h2>
+    <div id="waiting-rule-traditional" class="mt-3 py-3">
+      All players will be given the same question or statement.
+      <br><br>Each player will create a lie that seems most reasonable.<br><br>
+      Afterwards, all the lies (and one truth)
+      is put into a pool of answers where everyone
+      then has to pick which answer they believe is true. (You can't pick your own).
+      <br><br>
+      If you get people to pick your lie, you get <b>1 point</b> for each player.
+      <br>If you guess the truth you get <b>2 points</b>.
+      <br><br>Round then restarts.
+
+    </div>
+  </div>
+
+  <div class="modal" id="change-name">
+    <h2 class="text-center mt-3">Change Name</h2>
+    <div id="change-name-close">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="input-group mt-4">
+      <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+        placeholder="Name" maxlength="15" id="change-name-name">
+    </div>
+    <button class="button-1" id="change-name-save-button">Save</button>
+    <br>
+    <button class="button-1" id="change-name-cancel-button">Cancel</button>
+  </div>
+
   <div id="playerLeaveNotification"
     style="display:none; width: 90vw; text-align: center; position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%);">
     <h1>A player left</h1>
     <h2>Back to the lobby...</h2>
   </div>
 
-  <div id='progressBar'><div id='progress'></div></div>
-  
- <audio id='lobbySound' src="/assets/res/lobby.mp3" loop></audio>
- <audio id='wrongSound' src="/assets/res/wrong.mp3"></audio>
- <audio id='playerAnsweredSound' src="/assets/res/player_answered.mp3"></audio>
- <audio id='gongSound' src="/assets/res/gong.mp3"></audio>
- <!-- //  document.getElementById('yourAudioTag').play(); -->
+  <div id='progressBar'>
+    <div id='progress'></div>
+  </div>
+
+  <audio id='lobbySound' src="/assets/res/lobby.mp3" loop></audio>
+  <audio id='wrongSound' src="/assets/res/wrong.mp3"></audio>
+  <audio id='playerAnsweredSound' src="/assets/res/player_answered.mp3"></audio>
+  <audio id='gongSound' src="/assets/res/gong.mp3"></audio>
+  <!-- //  document.getElementById('yourAudioTag').play(); -->
 
 
   <script src="../socket.io/socket.io.js"></script>
@@ -242,7 +215,7 @@
   <script src="../assets/js/start.js"></script>
   <script src="../assets/js/main.js"></script>
   <script src="../assets/js/socket.js"></script>
-  <script src="../assets/js/dropdownMenu.js"></script>
+  <script src="../assets/js/scoreboard.js"></script>
 
 </body>
 

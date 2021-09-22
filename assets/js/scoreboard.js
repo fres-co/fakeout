@@ -1,21 +1,6 @@
 
 
 
-var menuActive = false;
-$('#toggleMenuButton').on('click', function(e) {
-    e.preventDefault();
-    menuActive = !menuActive;
-    if (menuActive) {
-        $("#menu").removeClass('mSlideUp');
-        $("#menu").addClass('mSlideDown');
-        $(this).css('top', '-14%');
-    } else {
-        $("#menu").removeClass('mSlideDown');
-        $("#menu").addClass('mSlideUp');
-        $(this).css('top', '100%');
-    }
-});
-
 function updateScoreboard() {
     socket.emit('get players', roomID, function(pl){
         var s = "";

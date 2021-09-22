@@ -19,22 +19,6 @@ $("#start-join-roomid").on({
     }
 });
 
-var WrulesActive = false;
-$("#waiting-rules").on("click", function (e) {
-    e.preventDefault();
-    WrulesActive = true;
-    if (WrulesActive) {
-        document.getElementById("waiting-rule-display").style.display = "block";
-    }
-});
-$("#waiting-close-rule-display").on("click", function (e) {
-    e.preventDefault();
-    WrulesActive = false;
-    if (!WrulesActive) {
-        document.getElementById("waiting-rule-display").style.display = "none";
-    }
-});
-
 var rulesActive = false;
 $("#rules").on("click", function (e) {
     e.preventDefault();
@@ -153,8 +137,6 @@ $("#start-join-game-button").click(joinGame);
 function goToPlaying() {
     $('#waiting-room').fadeOut(800, function () {
 
-        WrulesActive = false;
-        document.getElementById("waiting-rule-display").style.display = "none";
         document.getElementById("waiting-room").style.display = "none";
         socket.removeAllListeners("start game");
         socket.removeAllListeners("update players");
@@ -169,26 +151,24 @@ function goToPlaying() {
 }
 
 function displayWaitingRoom() {
+
     gamestate = NOT_PLAYING;
     clearCountDown();
     playSound("lobbySound", 0.03);
 
     document.getElementById("playing").style.display = "none";
-    document.getElementById("menu").style.display = "block";
-
+    
     $("#startButton").unbind().click(startGame);
     $("#leaveButton").unbind().click(leave);
 
-
     document.getElementById("wait-roomCode").innerText = roomID;
     document.getElementById("waiting-player-list").innerHTML = "";
-
 
     $('#waiting-room').fadeIn(400);
 
     if (displayPrevScore) {
         socket.emit('get players', roomID, function (pl) {
-            $('#prevScoreB').css('display', 'block');
+            $('#prevScoreB').show();
             var s = "";
             for (var p of pl) {
                 s += "<div class=\"row\">" +
@@ -199,7 +179,9 @@ function displayWaitingRoom() {
             }
             document.getElementById("prevScoreDisplayP").innerHTML = s;
         });
-    } else $('prevScoreB').css('display', 'none');
+    } else {
+        $('#prevScoreB').hide();
+    }
 
 
 
@@ -294,15 +276,7 @@ function startGame(e) {
 
 
 function backToWaitingRoom(cb) {
-    menuActive = false;
-    if ($('#menu').hasClass('mSlideDown')) {
-        $("#menu").removeClass('mSlideDown');
-        $("#menu").addClass('mSlideUp');
-    }
-    $('#toggleMenuButton').css('top', '100%');
-
     $('#playing').fadeOut(1000, function () {
-        $("#menu").removeClass('mSlideUp');
         cb && cb();
     });
 }

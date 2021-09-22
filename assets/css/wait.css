@@ -3,21 +3,6 @@
     display:none;
 }
 
-#waiting-options, #change-name {
-    position:absolute;
-    z-index: 1;
-    width: 80%;
-    height: 85%;
-    background-color: #f7f7f7;
-    padding: 20px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid #e5cbb7;
-    border-radius: 5px;
-    display:none;
-}
-
 #option-save-button, #option-cancel-button, #change-name-save-button, #change-name-cancel-button {
     position: relative;
     left: 50%;
@@ -27,12 +12,12 @@
     border-radius: 5px;
 }
 
-#waiting-setting:hover, #change-name-close:hover, #waiting-options-close:hover {
+#waiting-setting:hover, #change-name-close:hover {
     color:gray;
     cursor: pointer;
 }
 
-#waiting-options-close, #change-name-close {
+#change-name-close {
     position: absolute;
     top: 1%;
     right: 5%;
