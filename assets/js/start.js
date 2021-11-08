@@ -157,6 +157,8 @@ function displayWaitingRoom() {
     playSound("lobbySound", 0.03);
 
     document.getElementById("playing").style.display = "none";
+    document.getElementById("end-game-button").style.display = "none";
+    document.getElementById("leave-game-button").style.display = "none";
     
     $("#startButton").unbind().click(startGame);
     $("#leaveButton").unbind().click(leave);

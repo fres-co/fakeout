@@ -36,6 +36,7 @@
 }
 
 .modal {
+    overflow: auto;
     position: absolute;
     width: 80%;
     height: 80vh;
